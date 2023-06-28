@@ -17,18 +17,4 @@ public class GlowingEnchantment extends Enchantment {
         return 1;
     }
 
-    @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public boolean isAvailableForEnchantedBookOffer() {
-        return true;
-    }
-
-    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
 }

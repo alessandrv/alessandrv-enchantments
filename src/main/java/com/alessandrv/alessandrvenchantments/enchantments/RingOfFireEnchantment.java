@@ -10,7 +10,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
@@ -26,11 +25,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 public class RingOfFireEnchantment extends Enchantment {
-    private static final Logger LOGGER = LoggerFactory.getLogger("alepagliaccioenchantments");
 
     public RingOfFireEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
@@ -48,14 +45,6 @@ public class RingOfFireEnchantment extends Enchantment {
     @Override
     public boolean canAccept(Enchantment other) {
         return !(other instanceof MobGuardEnchantment || other instanceof EnderDefenseEnchantment || other instanceof ExplosiveEnchantment);
-    }    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
-
-    @Override
-    public boolean isAvailableForEnchantedBookOffer() {
-        return true;
     }
 
     @Override
@@ -75,15 +64,13 @@ public class RingOfFireEnchantment extends Enchantment {
 
             user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.MOBGUARDCOOLDOWN, 600, 0, false, false, true));
 
-            world.playSound((PlayerEntity) null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
+            world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
             user.playSound(soundEvent, 2.0F, 0.5F);
-            if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
+            if (world instanceof ServerWorld serverWorld) {
                 Box boundingBox = user.getBoundingBox().expand(5 + level); // Raggio di 10 blocchi intorno all'entità utente
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
-                            if (livingEntity instanceof HostileEntity) {
-                                HostileEntity hostileEntity = (HostileEntity) livingEntity;
+                            if (livingEntity instanceof HostileEntity hostileEntity) {
                                 Vec3d userPos = user.getPos();
                                 Vec3d targetPos = hostileEntity.getPos();
                                 Vec3d direction = userPos.subtract(targetPos).normalize();
@@ -97,7 +84,7 @@ public class RingOfFireEnchantment extends Enchantment {
 
                                 hostileEntity.takeKnockback(2, xC, zC);
 
-                                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.RINGOFFIRECOOLDOWN, 1200/level, 0, false, false, false));
+                                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.RINGOFFIRECOOLDOWN, 1200/level, 0, false, false, true));
 
                             }
                         });

@@ -18,7 +18,7 @@ public class WaveParticle extends SpriteBillboardParticle {
     private final SpriteProvider sprites;
     private static final Quaternionf QUATERNION = new Quaternionf(0F, -0.7F, 0.7F, 0F);
 
-    WaveParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, SpriteProvider sprites) {
+    WaveParticle(ClientWorld world, double x, double y, double z, SpriteProvider sprites) {
         super(world, x, y + 0.5, z, 0.0, 0.0, 0.0);
         this.scale = 7F;
         this.setVelocity(0D, 0D, 0D);
@@ -87,7 +87,7 @@ public class WaveParticle extends SpriteBillboardParticle {
     @Environment(EnvType.CLIENT)
     public record Factory(SpriteProvider sprites) implements ParticleFactory<DefaultParticleType> {
         public Particle createParticle(DefaultParticleType type, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new WaveParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
+            return new WaveParticle(world, x, y, z, sprites);
         }
     }
 }

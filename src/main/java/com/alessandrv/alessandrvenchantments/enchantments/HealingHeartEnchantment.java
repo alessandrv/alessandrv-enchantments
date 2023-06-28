@@ -9,8 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
@@ -24,15 +24,12 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 
 
-public class EnderDefenseEnchantment extends Enchantment {
+public class HealingHeartEnchantment extends Enchantment {
 
-    public EnderDefenseEnchantment() {
+    public HealingHeartEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
     }
 
@@ -53,58 +50,40 @@ public class EnderDefenseEnchantment extends Enchantment {
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
-        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.ENDERDEFENSE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
+        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.HEALINGHEART, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(AlessandrvEnchantments.ENDERDEFENSECOOLDOWN)) {
+        if(user.getHealth() <=6 && !user.hasStatusEffect(AlessandrvEnchantments.HEALINGHEARTCOOLDOWN)) {
+            World world = user.getEntityWorld();
 
-            World world;
-            world = user.getEntityWorld();
 
             if (world instanceof ServerWorld serverWorld) {
+                // Resto del codice che utilizza la variabile "serverWorld"
+                // ...
+
 
                 double x = user.getX();
                 double y = user.getY() - 0.25;
                 double z = user.getZ();
-                ((ServerWorld) user.getWorld()).spawnParticles(AlessandrvEnchantments.ENDERWAVE,
+                ((ServerWorld) user.getWorld()).spawnParticles(AlessandrvEnchantments.HEALINGWAVE,
                         x, y, z, 1, 0.0, 0, 0.0, 0.0);
-                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.ENDERDEFENSECOOLDOWN, 600, 0, false, false, true));
+                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.HEALINGHEARTCOOLDOWN, 3000 / level, 0, false, false, true));
+                SoundEvent soundEvent = SoundEvents.ENTITY_ALLAY_ITEM_TAKEN;
+
+                world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
+                user.playSound(soundEvent, 2.0F, 0.5F);
 
 
-                Box boundingBox = user.getBoundingBox().expand(5 + level); // Raggio di 10 blocchi intorno all'entità utente
+                Box boundingBox = user.getBoundingBox().expand(10 + level); // Raggio di 10 blocchi intorno all'entità utente
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
-                            if (livingEntity instanceof HostileEntity hostileEntity) {
+                            if (livingEntity instanceof PlayerEntity) {
+                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 2, false, false, false));
 
-                                if (hostileEntity.getTarget() == user) {
-
-
-                                    double d = user.getX();
-                                    double e = user.getY();
-                                    double f = user.getZ();
-
-                                    for (int i = 0; i < 16; ++i) {
-                                        double g = user.getX() + (hostileEntity.getRandom().nextDouble() - 0.5) * 16.0 * level;
-                                        double h = MathHelper.clamp(user.getY() + (double) (user.getRandom().nextInt(16) - 8), world.getBottomY(), world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1);
-                                        double j = user.getZ() + (user.getRandom().nextDouble() - 0.5) * 16.0 * level;
-                                        if (hostileEntity.hasVehicle()) hostileEntity.stopRiding();
-
-                                        Vec3d vec3d = hostileEntity.getPos();
-                                        if (hostileEntity.teleport(g, h, j, true)) {
-                                            world.emitGameEvent(GameEvent.TELEPORT, vec3d, GameEvent.Emitter.of(hostileEntity));
-                                            SoundEvent soundEvent = user instanceof FoxEntity ? SoundEvents.ENTITY_FOX_TELEPORT : SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT;
-                                            world.playSound(null, d, e, f, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                                            user.playSound(soundEvent, 1.0F, 1.0F);
-                                            hostileEntity.setTarget(null);
-                                            break;
-                                        }
-                                    }
-
-
-                                }
                             }
                         });
             }
+
         }
 
 

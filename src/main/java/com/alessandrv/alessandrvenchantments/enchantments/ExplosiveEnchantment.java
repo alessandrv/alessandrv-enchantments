@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
@@ -25,11 +24,10 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 public class ExplosiveEnchantment extends Enchantment {
-    private static final Logger LOGGER = LoggerFactory.getLogger("alepagliaccioenchantments");
+
 
     public ExplosiveEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
@@ -48,15 +46,6 @@ public class ExplosiveEnchantment extends Enchantment {
     @Override
     public boolean canAccept(Enchantment other) {
         return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof EnderDefenseEnchantment);
-    }
-    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
-
-    @Override
-    public boolean isAvailableForEnchantedBookOffer() {
-        return true;
     }
 
     @Override
@@ -80,7 +69,7 @@ public class ExplosiveEnchantment extends Enchantment {
                     x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
 
             SoundEvent soundEvent = SoundEvents.ENTITY_GENERIC_EXPLODE;
-            world.playSound((PlayerEntity) null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
+            world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
             user.playSound(soundEvent, 2.0F, 0.5F);
             user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.EXPLOSIVECOOLDOWN, 1200/level, 0, false, false, true));
 

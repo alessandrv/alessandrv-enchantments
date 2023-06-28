@@ -23,15 +23,11 @@ public class GlowerEnchantment extends Enchantment {
     public int getMaxLevel() {
         return 3;
     }
-    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
+
 
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level) {
-        if (target instanceof LivingEntity) {
-            LivingEntity targetEntity = (LivingEntity) target;
+        if (target instanceof LivingEntity targetEntity) {
             targetEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 200 * level, 0, false, false, false)); // L'aura visibile dura 10 secondi
         }
     }

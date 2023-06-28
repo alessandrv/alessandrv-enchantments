@@ -14,12 +14,12 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 
 
-public class VampiricDaggerEnchantment extends Enchantment {
-    public VampiricDaggerEnchantment() {
+public class VampiricEnchantment extends Enchantment {
+    public VampiricEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] { EquipmentSlot.MAINHAND});
     }
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof AxeItem ? true : super.isAcceptableItem(stack);
+        return stack.getItem() instanceof AxeItem || super.isAcceptableItem(stack);
     }
     public boolean canAccept(Enchantment other) {
         return !(other instanceof DamageEnchantment);
@@ -33,21 +33,11 @@ public class VampiricDaggerEnchantment extends Enchantment {
     public int getMaxLevel() {
         return 5;
     }
-    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
-
-    @Override
-    public boolean isAvailableForEnchantedBookOffer() {
-        return true;
-    }
 
 
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level) {
-        if (user instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) user;
+        if (user instanceof PlayerEntity player) {
             if(target instanceof LivingEntity) {
                 // Verifica se l'entità bersaglio ha registrato danni recenti
                 float lastDamageTaken = ((LivingEntityAccessor) target).getLastDamageTaken();
@@ -55,11 +45,7 @@ public class VampiricDaggerEnchantment extends Enchantment {
                 float healingAmount = lastDamageTaken * 0.02f * level; // Restituisce il 25% del danno inflitto come vita
                 // Applica la rigenerazione al giocatore
                 player.heal(healingAmount);
-                LivingEntity targetLiving = (LivingEntity) target;
                 for (int i = 0; i < 10; i++) {
-                    double particleX = targetLiving.getX() + targetLiving.getRandom().nextDouble() * targetLiving.getWidth();
-                    double particleY = targetLiving.getY() + targetLiving.getRandom().nextDouble() * targetLiving.getHeight();
-                    double particleZ = targetLiving.getZ() + targetLiving.getRandom().nextDouble() * targetLiving.getWidth();
 
                     ((ServerWorld)target.getWorld()).spawnParticles(ParticleTypes.HAPPY_VILLAGER  ,
                             target.getX(), target.getY()+1, target.getZ(), 1,

@@ -17,18 +17,4 @@ public class NightStalkerEnchantment extends Enchantment {
         return 15;
     }
 
-    @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public boolean isAvailableForEnchantedBookOffer() {
-        return true;
-    }
-
-    @Override
-    public boolean isAvailableForRandomSelection() {
-        return true;
-    }
 }
