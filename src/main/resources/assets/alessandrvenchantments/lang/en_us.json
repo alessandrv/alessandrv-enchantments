@@ -1,0 +1,29 @@
+{
+  "enchantment.alessandrvenchantments.nightstalker": "Night Stalker",
+  "enchantment.alessandrvenchantments.nightstalker.desc": "Enables night vision on your helmet.",
+  "enchantment.alessandrvenchantments.mobguard": "Mob Guard",
+  "enchantment.alessandrvenchantments.mobguard.desc": "When on low health freeze all hostile mobs around you. Has a cooldown.",
+  "enchantment.alessandrvenchantments.spotter": "Spotter",
+  "enchantment.alessandrvenchantments.spotter.desc": "Let you sensate the hostile creatures around you.",
+
+  "enchantment.alessandrvenchantments.ubiquity": "Ubiquity",
+  "enchantment.alessandrvenchantments.ubiquity.desc": "When hit by an enemy you teleport nearby.",
+  "enchantment.alessandrvenchantments.glowing": "Glowing",
+  "enchantment.alessandrvenchantments.glowing.desc": "Makes you glow, make some light or get visible for friends.",
+  "enchantment.alessandrvenchantments.glower": "Glower",
+  "enchantment.alessandrvenchantments.glower.desc": "Makes the mob you hit glowing and visible to everyone even through walls.",
+  "enchantment.alessandrvenchantments.vampiricdagger": "Vampiric Dagger",
+  "enchantment.alessandrvenchantments.vampiricdagger.desc": "Makes your weapon steal life based on the damage you deal and the enchantment level.",
+  "enchantment.alessandrvenchantments.ringoffire": "Ring Of Fire",
+  "enchantment.alessandrvenchantments.ringoffire.desc": "When on low health, depending on your level) creates a ring of fire around you that sets on fire all hostile entities. Has a cooldown.",
+  "enchantment.alessandrvenchantments.explosive": "Explosive",
+  "enchantment.alessandrvenchantments.explosive.desc": "Generates an explosion that damages all entities around you. Has a cooldown.",
+  "enchantment.alessandrvenchantments.enderdefense": "Ender Defense",
+  "enchantment.alessandrvenchantments.enderdefense.desc": "On hit teleports all nearby hostile entities away from you, the higher the level the farthest. Has a cooldown.",
+
+  "effect.alessandrvenchantments.spottercooldown": "Spotter",
+  "effect.alessandrvenchantments.mobguardcooldown": "Mob Guard",
+  "effect.alessandrvenchantments.ringoffirecooldown": "Ring of Fire",
+  "effect.alessandrvenchantments.explosivecooldown": "Explosive",
+  "effect.alessandrvenchantments.enderdefensecooldown": "Ender Defense"
+}
