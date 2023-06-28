@@ -45,7 +45,7 @@ public class ExplosiveEnchantment extends Enchantment {
 
     @Override
     public boolean canAccept(Enchantment other) {
-        return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof EnderDefenseEnchantment);
+        return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof EnderDefenseEnchantment || other instanceof HealingHeartEnchantment);
     }
 
     @Override

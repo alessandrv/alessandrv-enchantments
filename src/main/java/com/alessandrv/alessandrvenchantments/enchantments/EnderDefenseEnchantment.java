@@ -47,7 +47,7 @@ public class EnderDefenseEnchantment extends Enchantment {
     }
     @Override
     public boolean canAccept(Enchantment other) {
-        return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof ExplosiveEnchantment);
+        return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof ExplosiveEnchantment || other instanceof HealingHeartEnchantment);
     }
 
 
