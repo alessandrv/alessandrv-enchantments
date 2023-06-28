@@ -58,7 +58,7 @@ public class RingOfFireEnchantment extends Enchantment {
             double y = user.getY()-0.25;
             double z = user.getZ();
             ((ServerWorld)user.getWorld()).spawnParticles(AlessandrvEnchantments.BLASTWAVE,
-                    x, y, z, 1, 0.0, 0.25, 0.0, 0.0);
+                    x, y, z, 1, 0.0, 0, 0.0, 0.0);
 
             SoundEvent soundEvent = SoundEvents.ITEM_FIRECHARGE_USE;
 

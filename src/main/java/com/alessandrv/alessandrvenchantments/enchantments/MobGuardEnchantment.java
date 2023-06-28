@@ -62,7 +62,7 @@ public class MobGuardEnchantment extends Enchantment {
             double y = user.getY()-0.25;
             double z = user.getZ();
             ((ServerWorld)user.getWorld()).spawnParticles(AlessandrvEnchantments.ICEWAVE,
-                    x, y, z, 1, 0.0, 0.25, 0.0, 0.0);
+                    x, y, z, 1, 0.0, 0, 0.0, 0.0);
 
             SoundEvent soundEvent = SoundEvents.BLOCK_GLASS_BREAK;
 
