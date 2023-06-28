@@ -91,7 +91,7 @@ public class ExplosiveEnchantment extends Enchantment {
                     .rolls(ConstantLootNumberProvider.create(1.0F))
                     .with(ItemEntry.builder(Items.BOOK)
                             .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.MOBGUARD)))
+                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.EXPLOSIVE)))
                     .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
                     .with(EmptyEntry.builder()
                             .weight(10))

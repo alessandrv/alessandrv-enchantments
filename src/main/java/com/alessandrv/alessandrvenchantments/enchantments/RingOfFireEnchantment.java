@@ -62,7 +62,7 @@ public class RingOfFireEnchantment extends Enchantment {
 
             SoundEvent soundEvent = SoundEvents.ITEM_FIRECHARGE_USE;
 
-            user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.MOBGUARDCOOLDOWN, 600, 0, false, false, true));
+
 
             world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
             user.playSound(soundEvent, 2.0F, 0.5F);
