@@ -25,6 +25,8 @@
   "enchantment.alessandrvenchantments.healingheart.desc": "When low on heart release an healing wave that heals you and the nearby players. Has a cooldown.",
   "enchantment.alessandrvenchantments.bonemeal": "Bone Meal",
   "enchantment.alessandrvenchantments.bonemeal.desc": "Lets you shift left-click to bonemeal and area: Level 1-1x1, 2-3x3, 3-9x9. Has a cooldown.",
+  "enchantment.alessandrvenchantments.soulbound": "Soulbound",
+  "enchantment.alessandrvenchantments.souldbound.desc": "Makes an item soulbound to you, if you die you respawn with it in the same position it was.",
 
   "effect.alessandrvenchantments.spottercooldown": "Spotter",
   "effect.alessandrvenchantments.mobguardcooldown": "Mob Guard",

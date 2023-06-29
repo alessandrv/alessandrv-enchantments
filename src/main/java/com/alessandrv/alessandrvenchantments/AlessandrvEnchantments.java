@@ -28,6 +28,7 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static final Enchantment ENDERDEFENSE = new EnderDefenseEnchantment();
     public static final Enchantment HEALINGHEART = new HealingHeartEnchantment();
     public static final Enchantment BONEMEAL = new BoneMealEnchantment();
+    public static final Enchantment SOULBOUND = new SoulboundEnchantment();
 
 
     public static final StatusEffect SPOTTERCOOLDOWN = new SpotterCooldown();
@@ -39,6 +40,7 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static final StatusEffect HEALINGHEARTCOOLDOWN = new HealingHeartCooldown();
     public static final StatusEffect UBIQUITYCOOLDOWN = new UbiquityCooldown();
     public static final StatusEffect BONEMEALCOOLDOWN = new BoneMealCooldown();
+    public static final StatusEffect FORTUNE = new FortuneEffect();
 
 
 
@@ -64,6 +66,7 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "enderdefense"), ENDERDEFENSE);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "healingheart"), HEALINGHEART);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "bonemeal"), BONEMEAL);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "soulbound"), SOULBOUND);
 
 
 
@@ -77,6 +80,7 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "healingheartcooldown"), HEALINGHEARTCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ubiquitycooldown"), UBIQUITYCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "bonemealcooldown"), BONEMEALCOOLDOWN);
+        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "fortune"), FORTUNE);
 
 
 
