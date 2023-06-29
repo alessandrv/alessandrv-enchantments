@@ -24,7 +24,7 @@ import net.minecraft.world.event.GameEvent;
 public class UbiquityEnchantment extends Enchantment {
     public UbiquityEnchantment() {
 
-        super(Rarity.UNCOMMON, EnchantmentTarget.WEARABLE, new EquipmentSlot[] {EquipmentSlot.CHEST});
+        super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_CHEST, new EquipmentSlot[] {EquipmentSlot.CHEST});
     }
 
 
