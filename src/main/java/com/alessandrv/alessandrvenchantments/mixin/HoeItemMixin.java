@@ -32,7 +32,7 @@ public abstract class HoeItemMixin extends MiningToolItem {
         int bonemealLevel = EnchantmentHelper.getLevel(AlessandrvEnchantments.BONEMEAL, context.getStack());
         if (bonemealLevel > 0) {
             assert player != null;
-            if (!player.hasStatusEffect(AlessandrvEnchantments.BONEMEALCOOLDOWN) && player.isSneaking() || player.isCreative()) {
+            if (!player.hasStatusEffect(AlessandrvEnchantments.BONEMEALCOOLDOWN) && player.isSneaking() || player.isCreative() && player.isSneaking()) {
                 World world = context.getWorld();
                 BlockPos blockPos = context.getBlockPos();
 
