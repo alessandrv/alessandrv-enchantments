@@ -19,6 +19,9 @@
 			"com.alessandrv.alessandrvenchantments.AlessandrvEnchantments"
 		],"client": [
 			"com.alessandrv.alessandrvenchantments.AlessandrvEnchantmentsClient"
+		],
+		"modmenu": [
+			"com.alessandrv.alessandrvenchantments.util.config.ModMenuIntegration"
 		]
 	},
 	"mixins": [

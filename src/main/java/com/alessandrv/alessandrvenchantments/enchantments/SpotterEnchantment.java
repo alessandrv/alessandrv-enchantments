@@ -1,5 +1,7 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
+import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
@@ -12,11 +14,16 @@ import net.minecraft.world.World;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SpotterEnchantment extends Enchantment {
+    private static final ModConfig.SpotterOptions CONFIG = AlessandrvEnchantments.getConfig().spotterOptions;
 
     public SpotterEnchantment() {
 
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD});
 
+    }
+    @Override
+    public int getMaxLevel() {
+        return CONFIG.isEnabled ? 1 : 0;
     }
 
 
@@ -25,6 +32,15 @@ public class SpotterEnchantment extends Enchantment {
         return 1;
     }
 
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
 
     public static boolean checkIfAttacked(LivingEntity user) {
         AtomicBoolean badGuyNear = new AtomicBoolean(false);

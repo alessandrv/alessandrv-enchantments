@@ -1,8 +1,8 @@
 package com.alessandrv.alessandrvenchantments.mixin;
 
-
-import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.enchantments.ModEnchantments;
 import com.alessandrv.alessandrvenchantments.enchantments.SpotterEnchantment;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
 import com.alessandrv.alessandrvenchantments.util.SoulboundItemsHolder;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -52,18 +52,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     private void tick(CallbackInfo ci) {
         ItemStack itemStackHead = this.getEquippedStack(EquipmentSlot.HEAD);
 
-        int nightStalkerLevel = EnchantmentHelper.getLevel(AlessandrvEnchantments.NIGHT_STALKER, itemStackHead);
+        int nightStalkerLevel = EnchantmentHelper.getLevel(ModEnchantments.NIGHT_STALKER, itemStackHead);
         if (nightStalkerLevel > 0) {
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 250, 0, false, false, false));
         }
 
-        int glowingLevel = EnchantmentHelper.getLevel(AlessandrvEnchantments.GLOWING, itemStackHead);
+        int glowingLevel = EnchantmentHelper.getLevel(ModEnchantments.GLOWING, itemStackHead);
         if (glowingLevel > 0) {
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 250, 0, false, false, false));
         }
 
-        int spotterlevel = EnchantmentHelper.getLevel(AlessandrvEnchantments.SPOTTER, itemStackHead);
-        if(spotterlevel>0 && !this.hasStatusEffect(AlessandrvEnchantments.SPOTTERCOOLDOWN)){
+        int spotterlevel = EnchantmentHelper.getLevel(ModEnchantments.SPOTTER, itemStackHead);
+        if(spotterlevel>0 && !this.hasStatusEffect(ModStatuses.SPOTTERCOOLDOWN)){
 
             if(SpotterEnchantment.checkIfAttacked(this)){
                 LOGGER.info("Ti vogliono");
@@ -97,7 +97,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     }
 
     private boolean hasSoulboundEnchantment(ItemStack stack) {
-        return EnchantmentHelper.getLevel(AlessandrvEnchantments.SOULBOUND, stack) > 0;
+        return EnchantmentHelper.getLevel(ModEnchantments.SOULBOUND, stack) > 0;
     }
 
 }

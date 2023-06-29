@@ -10,9 +10,9 @@ public class AlessandrvEnchantmentsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        ParticleFactoryRegistry.getInstance().register(AlessandrvEnchantments.BLASTWAVE, WaveParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(AlessandrvEnchantments.ICEWAVE, WaveParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(AlessandrvEnchantments.ENDERWAVE, WaveParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(AlessandrvEnchantments.HEALINGWAVE, WaveParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.BLASTWAVE, WaveParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.ICEWAVE, WaveParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.ENDERWAVE, WaveParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.HEALINGWAVE, WaveParticle.Factory::new);
     }
 }

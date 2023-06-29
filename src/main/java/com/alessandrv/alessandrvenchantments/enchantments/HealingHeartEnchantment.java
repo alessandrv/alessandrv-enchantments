@@ -1,6 +1,9 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.particles.ModParticles;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -28,6 +31,8 @@ import net.minecraft.world.World;
 
 
 public class HealingHeartEnchantment extends Enchantment {
+    private static final ModConfig.HealingHeartOptions CONFIG = AlessandrvEnchantments.getConfig().healingHeartOptions;
+
 
     public HealingHeartEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
@@ -40,20 +45,30 @@ public class HealingHeartEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return CONFIG.isEnabled ? 5 : 0;
     }
+
     @Override
     public boolean canAccept(Enchantment other) {
         return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof ExplosiveEnchantment || other instanceof EnderDefenseEnchantment);
     }
 
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
+    }
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
-        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.HEALINGHEART, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.HEALINGHEART, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(user.getHealth() <=6 && !user.hasStatusEffect(AlessandrvEnchantments.HEALINGHEARTCOOLDOWN)) {
+        if(user.getHealth() <=6 && !user.hasStatusEffect(ModStatuses.HEALINGHEARTCOOLDOWN)) {
             World world = user.getEntityWorld();
 
 
@@ -65,16 +80,16 @@ public class HealingHeartEnchantment extends Enchantment {
                 double x = user.getX();
                 double y = user.getY() - 0.25;
                 double z = user.getZ();
-                ((ServerWorld) user.getWorld()).spawnParticles(AlessandrvEnchantments.HEALINGWAVE,
+                ((ServerWorld) user.getWorld()).spawnParticles(ModParticles.HEALINGWAVE,
                         x, y, z, 1, 0.0, 0, 0.0, 0.0);
-                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.HEALINGHEARTCOOLDOWN, 3000 / level, 0, false, false, true));
+                user.addStatusEffect(new StatusEffectInstance(ModStatuses.HEALINGHEARTCOOLDOWN, CONFIG.cooldown *20 / level, 0, false, false, true));
                 SoundEvent soundEvent = SoundEvents.ENTITY_ALLAY_ITEM_TAKEN;
 
                 world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
                 user.playSound(soundEvent, 2.0F, 0.5F);
 
 
-                Box boundingBox = user.getBoundingBox().expand(10 + level); // Raggio di 10 blocchi intorno all'entità utente
+                Box boundingBox = user.getBoundingBox().expand(CONFIG.radius + level); // Raggio di 10 blocchi intorno all'entità utente
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
                             if (livingEntity instanceof PlayerEntity) {
@@ -103,7 +118,7 @@ public class HealingHeartEnchantment extends Enchantment {
                     .rolls(ConstantLootNumberProvider.create(1.0F))
                     .with(ItemEntry.builder(Items.BOOK)
                             .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.HEALINGHEART)))
+                            .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.HEALINGHEART)))
                     .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
                     .with(EmptyEntry.builder()
                             .weight(10))

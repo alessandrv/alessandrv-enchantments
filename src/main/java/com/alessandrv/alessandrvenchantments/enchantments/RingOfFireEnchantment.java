@@ -1,6 +1,9 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.particles.ModParticles;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -26,11 +29,24 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class RingOfFireEnchantment extends Enchantment {
+    private static final ModConfig.RingOfFireOptions CONFIG = AlessandrvEnchantments.getConfig().ringOfFireOptions;
 
     public RingOfFireEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
     }
 
     @Override
@@ -40,8 +56,9 @@ public class RingOfFireEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return CONFIG.isEnabled ? 5 : 0;
     }
+
     @Override
     public boolean canAccept(Enchantment other) {
         return !(other instanceof MobGuardEnchantment || other instanceof EnderDefenseEnchantment || other instanceof ExplosiveEnchantment || other instanceof HealingHeartEnchantment);
@@ -49,25 +66,14 @@ public class RingOfFireEnchantment extends Enchantment {
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
-        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.RINGOFFIRE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.RINGOFFIRE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(AlessandrvEnchantments.RINGOFFIRECOOLDOWN)){
+        if(!user.hasStatusEffect(ModStatuses.RINGOFFIRECOOLDOWN)){
             World world = user.getEntityWorld();
-            double x = user.getX();
-            double y = user.getY()-0.25;
-            double z = user.getZ();
-            ((ServerWorld)user.getWorld()).spawnParticles(AlessandrvEnchantments.BLASTWAVE,
-                    x, y, z, 1, 0.0, 0, 0.0, 0.0);
-
-            SoundEvent soundEvent = SoundEvents.ITEM_FIRECHARGE_USE;
-
-
-
-            world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
-            user.playSound(soundEvent, 2.0F, 0.5F);
+            AtomicBoolean badGuys = new AtomicBoolean(false);
             if (world instanceof ServerWorld serverWorld) {
-                Box boundingBox = user.getBoundingBox().expand(5 + level); // Raggio di 10 blocchi intorno all'entità utente
+                Box boundingBox = user.getBoundingBox().expand(CONFIG.radius + level); // Raggio di 10 blocchi intorno all'entità utente
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
                             if (livingEntity instanceof HostileEntity hostileEntity) {
@@ -84,10 +90,25 @@ public class RingOfFireEnchantment extends Enchantment {
 
                                 hostileEntity.takeKnockback(2, xC, zC);
 
-                                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.RINGOFFIRECOOLDOWN, 1200/level, 0, false, false, true));
-
+                                user.addStatusEffect(new StatusEffectInstance(ModStatuses.RINGOFFIRECOOLDOWN, CONFIG.cooldown *20 /level, 0, false, false, true));
+                                badGuys.set(true);
                             }
                         });
+                if (badGuys.get()){
+
+                    double x = user.getX();
+                    double y = user.getY()-0.25;
+                    double z = user.getZ();
+                    ((ServerWorld)user.getWorld()).spawnParticles(ModParticles.BLASTWAVE,
+                            x, y, z, 1, 0.0, 0, 0.0, 0.0);
+
+                    SoundEvent soundEvent = SoundEvents.ITEM_FIRECHARGE_USE;
+
+
+
+                    world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
+                    user.playSound(soundEvent, 2.0F, 0.5F);
+                }
             }
         }
 
@@ -109,7 +130,7 @@ public class RingOfFireEnchantment extends Enchantment {
                     .rolls(ConstantLootNumberProvider.create(1.0F))
                     .with(ItemEntry.builder(Items.BOOK)
                             .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.MOBGUARD)))
+                            .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.RINGOFFIRE)))
                     .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
                     .with(EmptyEntry.builder()
                             .weight(10))

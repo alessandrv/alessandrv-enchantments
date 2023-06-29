@@ -1,6 +1,8 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
+import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.mixin.LivingEntityAccessor;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -15,6 +17,8 @@ import net.minecraft.server.world.ServerWorld;
 
 
 public class VampiricEnchantment extends Enchantment {
+    private static final ModConfig.VampiricOptions CONFIG = AlessandrvEnchantments.getConfig().vampiricOptions;
+
     public VampiricEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] { EquipmentSlot.MAINHAND});
     }
@@ -22,8 +26,20 @@ public class VampiricEnchantment extends Enchantment {
         return stack.getItem() instanceof AxeItem || super.isAcceptableItem(stack);
     }
     public boolean canAccept(Enchantment other) {
-        return !(other instanceof DamageEnchantment);
+        if(CONFIG.mutuallyExlusive) return !(other instanceof DamageEnchantment);
+        else return true;
     }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
+    }
+
     @Override
     public int getMinPower(int level) {
         return 1 + (level - 1) * 10;
@@ -31,8 +47,9 @@ public class VampiricEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return CONFIG.isEnabled ? 5 : 0;
     }
+
 
 
     @Override

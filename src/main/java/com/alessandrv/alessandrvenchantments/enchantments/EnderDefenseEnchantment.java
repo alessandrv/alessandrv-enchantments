@@ -1,6 +1,9 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.particles.ModParticles;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,8 +32,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class EnderDefenseEnchantment extends Enchantment {
+    private static final ModConfig.EnderDefenseOptions CONFIG = AlessandrvEnchantments.getConfig().enderDefenseOptions;
 
     public EnderDefenseEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[] {EquipmentSlot.LEGS});
@@ -43,42 +49,42 @@ public class EnderDefenseEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return CONFIG.isEnabled ? 5 : 0;
     }
+
     @Override
     public boolean canAccept(Enchantment other) {
         return !(other instanceof MobGuardEnchantment || other instanceof RingOfFireEnchantment || other instanceof ExplosiveEnchantment || other instanceof HealingHeartEnchantment);
     }
 
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
+    }
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
-        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.ENDERDEFENSE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.ENDERDEFENSE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(AlessandrvEnchantments.ENDERDEFENSECOOLDOWN)) {
-
+        if(!user.hasStatusEffect(ModStatuses.ENDERDEFENSECOOLDOWN)) {
             World world;
             world = user.getEntityWorld();
-
             if (world instanceof ServerWorld serverWorld) {
-
-                double x = user.getX();
-                double y = user.getY() - 0.25;
-                double z = user.getZ();
-                ((ServerWorld) user.getWorld()).spawnParticles(AlessandrvEnchantments.ENDERWAVE,
-                        x, y, z, 1, 0.0, 0, 0.0, 0.0);
-                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.ENDERDEFENSECOOLDOWN, 600, 0, false, false, true));
-
-
-                Box boundingBox = user.getBoundingBox().expand(5 + level); // Raggio di 10 blocchi intorno all'entità utente
+                AtomicBoolean badGuys = new AtomicBoolean(false);
+                Box boundingBox = user.getBoundingBox().expand(CONFIG.radius + level); // Raggio di 10 blocchi intorno all'entità utente
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
                             if (livingEntity instanceof HostileEntity hostileEntity) {
 
                                 if (hostileEntity.getTarget() == user) {
 
-
+                                    badGuys.set(true);
                                     double d = user.getX();
                                     double e = user.getY();
                                     double f = user.getZ();
@@ -104,6 +110,15 @@ public class EnderDefenseEnchantment extends Enchantment {
                                 }
                             }
                         });
+                if(badGuys.get()){
+                    double x = user.getX();
+                    double y = user.getY() - 0.25;
+                    double z = user.getZ();
+                    ((ServerWorld) user.getWorld()).spawnParticles(ModParticles.ENDERWAVE,
+                            x, y, z, 1, 0.0, 0, 0.0, 0.0);
+                    user.addStatusEffect(new StatusEffectInstance(ModStatuses.ENDERDEFENSECOOLDOWN, CONFIG.cooldown *20, 0, false, false, true));
+
+                }
             }
         }
 
@@ -124,7 +139,7 @@ public class EnderDefenseEnchantment extends Enchantment {
                     .rolls(ConstantLootNumberProvider.create(1.0F))
                     .with(ItemEntry.builder(Items.BOOK)
                             .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.ENDERDEFENSE)))
+                            .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.ENDERDEFENSE)))
                     .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
                     .with(EmptyEntry.builder()
                             .weight(10))

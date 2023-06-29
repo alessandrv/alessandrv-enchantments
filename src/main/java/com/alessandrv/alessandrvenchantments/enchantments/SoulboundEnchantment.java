@@ -1,6 +1,7 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EquipmentSlot;
@@ -15,6 +16,8 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 
 
 public class SoulboundEnchantment extends Enchantment {
+    private static final ModConfig.SoulboundOptions CONFIG = AlessandrvEnchantments.getConfig().soulboundOptions;
+
     public SoulboundEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.BREAKABLE, EquipmentSlot.values());
     }
@@ -24,13 +27,23 @@ public class SoulboundEnchantment extends Enchantment {
     }
 
     @Override
+    public int getMaxLevel() {
+        return CONFIG.isEnabled ? 1 : 0;
+    }
+
+    @Override
     public boolean isTreasure() {
-        return true;
+        return CONFIG.isTreasure;
     }
 
     @Override
     public boolean isAvailableForRandomSelection() {
-        return false;
+        return CONFIG.randomSelection;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
     }
 
     @Override
@@ -55,7 +68,7 @@ public class SoulboundEnchantment extends Enchantment {
                     .rolls(ConstantLootNumberProvider.create(1.0F))
                     .with(ItemEntry.builder(Items.BOOK)
                             .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(AlessandrvEnchantments.SOULBOUND)))
+                            .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.SOULBOUND)))
                     .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
                     .with(EmptyEntry.builder()
                             .weight(10))

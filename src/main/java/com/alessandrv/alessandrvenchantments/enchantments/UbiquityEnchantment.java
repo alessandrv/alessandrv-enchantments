@@ -1,6 +1,8 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -22,30 +24,45 @@ import net.minecraft.world.event.GameEvent;
 
 
 public class UbiquityEnchantment extends Enchantment {
+    private static final ModConfig.UbiquityOptions CONFIG = AlessandrvEnchantments.getConfig().ubiquityOptions;
+
     public UbiquityEnchantment() {
 
         super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_CHEST, new EquipmentSlot[] {EquipmentSlot.CHEST});
     }
 
 
+    @Override
+    public int getMaxLevel() {
+        return CONFIG.isEnabled ? 1 : 0;
+    }
 
     @Override
     public int getMinPower(int level) {
         return 15;
     }
 
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return CONFIG.bookOffer;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return CONFIG.randomSelection;
+    }
 
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
-        if (EnchantmentHelper.getLevel(AlessandrvEnchantments.UBIQUITY, user.getEquippedStack(EquipmentSlot.CHEST)) <= 0) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.UBIQUITY, user.getEquippedStack(EquipmentSlot.CHEST)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
         World world = user.getEntityWorld();
-        if(!user.hasStatusEffect(AlessandrvEnchantments.MOBGUARDCOOLDOWN)){
+        if(!user.hasStatusEffect(ModStatuses.UBIQUITYCOOLDOWN)){
             if (!world.isClient) {
                 double d = user.getX();
                 double e = user.getY();
                 double f = user.getZ();
-                user.addStatusEffect(new StatusEffectInstance(AlessandrvEnchantments.UBIQUITYCOOLDOWN, 300, 0, false, false, true));
+                user.addStatusEffect(new StatusEffectInstance(ModStatuses.UBIQUITYCOOLDOWN, CONFIG.cooldown * 20, 0, false, false, true));
                 for (int i = 0; i < 16; ++i) {
                     double g = user.getX() + (user.getRandom().nextDouble() - 0.5) * 16.0;
                     double h = MathHelper.clamp(user.getY() + (double) (user.getRandom().nextInt(16) - 8), world.getBottomY(), world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1);
