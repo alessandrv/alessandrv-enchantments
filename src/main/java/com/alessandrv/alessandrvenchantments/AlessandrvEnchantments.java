@@ -27,6 +27,8 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static final Enchantment EXPLOSIVE = new ExplosiveEnchantment();
     public static final Enchantment ENDERDEFENSE = new EnderDefenseEnchantment();
     public static final Enchantment HEALINGHEART = new HealingHeartEnchantment();
+    public static final Enchantment BONEMEAL = new BoneMealEnchantment();
+
 
     public static final StatusEffect SPOTTERCOOLDOWN = new SpotterCooldown();
     public static final StatusEffect MOBGUARDCOOLDOWN = new MobGuardCooldown();
@@ -36,6 +38,7 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static final StatusEffect ABSORPTIONCOOLDOWN = new AbsorptionCooldown();
     public static final StatusEffect HEALINGHEARTCOOLDOWN = new HealingHeartCooldown();
     public static final StatusEffect UBIQUITYCOOLDOWN = new UbiquityCooldown();
+    public static final StatusEffect BONEMEALCOOLDOWN = new BoneMealCooldown();
 
 
 
@@ -60,6 +63,10 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "explosive"), EXPLOSIVE);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "enderdefense"), ENDERDEFENSE);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "healingheart"), HEALINGHEART);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "bonemeal"), BONEMEAL);
+
+
+
         //Status Effects
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "spottercooldown"), SPOTTERCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "mobguardcooldown"), MOBGUARDCOOLDOWN);
@@ -69,6 +76,7 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "absorptioncooldown"), ABSORPTIONCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "healingheartcooldown"), HEALINGHEARTCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ubiquitycooldown"), UBIQUITYCOOLDOWN);
+        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "bonemealcooldown"), BONEMEALCOOLDOWN);
 
 
 
@@ -77,6 +85,8 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("alessandrvenchantments", "icewave"), ICEWAVE);
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("alessandrvenchantments", "enderwave"), ENDERWAVE);
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("alessandrvenchantments", "healingwave"), HEALINGWAVE);
-//End
+
+
+        //End
     }
 }

@@ -23,6 +23,8 @@
   "enchantment.alessandrvenchantments.absorption.desc": "When below 3 hearts activate absorption 2 for a duration based on the level. Has a cooldown.",
   "enchantment.alessandrvenchantments.healingheart": "Healing Heart",
   "enchantment.alessandrvenchantments.healingheart.desc": "When low on heart release an healing wave that heals you and the nearby players. Has a cooldown.",
+  "enchantment.alessandrvenchantments.bonemeal": "Bone Meal",
+  "enchantment.alessandrvenchantments.bonemeal.desc": "Lets you shift left-click to bonemeal and area: Level 1-1x1, 2-3x3, 3-9x9. Has a cooldown.",
 
   "effect.alessandrvenchantments.spottercooldown": "Spotter",
   "effect.alessandrvenchantments.mobguardcooldown": "Mob Guard",
@@ -31,6 +33,7 @@
   "effect.alessandrvenchantments.enderdefensecooldown": "Ender Defense",
   "effect.alessandrvenchantments.absorptioncooldown": "Absorber",
   "effect.alessandrvenchantments.healingheartcooldown": "Healing Heart",
-  "effect.alessandrvenchantments.ubiquitycooldown": "Ubiquity"
+  "effect.alessandrvenchantments.ubiquitycooldown": "Ubiquity",
+  "effect.alessandrvenchantments.bonemealcooldown": "Bone Meal"
 
 }
