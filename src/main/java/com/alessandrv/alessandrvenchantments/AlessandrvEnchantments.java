@@ -9,7 +9,6 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-
 import net.minecraft.util.Identifier;
 
 
@@ -36,6 +35,8 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static final StatusEffect ENDERDEFENSECOOLDOWN = new EnderDefenseCooldown();
     public static final StatusEffect ABSORPTIONCOOLDOWN = new AbsorptionCooldown();
     public static final StatusEffect HEALINGHEARTCOOLDOWN = new HealingHeartCooldown();
+    public static final StatusEffect UBIQUITYCOOLDOWN = new UbiquityCooldown();
+
 
 
 
@@ -67,6 +68,10 @@ public class AlessandrvEnchantments implements ModInitializer {
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "enderdefensecooldown"), ENDERDEFENSECOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "absorptioncooldown"), ABSORPTIONCOOLDOWN);
         Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "healingheartcooldown"), HEALINGHEARTCOOLDOWN);
+        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ubiquitycooldown"), UBIQUITYCOOLDOWN);
+
+
+
         //Particles
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("alessandrvenchantments", "blastwave"), BLASTWAVE);
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("alessandrvenchantments", "icewave"), ICEWAVE);

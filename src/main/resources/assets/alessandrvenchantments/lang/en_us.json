@@ -30,5 +30,7 @@
   "effect.alessandrvenchantments.explosivecooldown": "Explosive",
   "effect.alessandrvenchantments.enderdefensecooldown": "Ender Defense",
   "effect.alessandrvenchantments.absorptioncooldown": "Absorber",
-  "effect.alessandrvenchantments.healingheartcooldown": "Healing Heart"
+  "effect.alessandrvenchantments.healingheartcooldown": "Healing Heart",
+  "effect.alessandrvenchantments.ubiquitycooldown": "Ubiquity"
+
 }
