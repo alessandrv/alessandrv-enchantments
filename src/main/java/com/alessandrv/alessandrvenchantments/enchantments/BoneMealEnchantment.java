@@ -14,7 +14,5 @@ public class BoneMealEnchantment extends Enchantment {
         return 3;
     }
 
-    // Override dei metodi dell'incantesimo (se necessario)
-    // ...
 
 }
