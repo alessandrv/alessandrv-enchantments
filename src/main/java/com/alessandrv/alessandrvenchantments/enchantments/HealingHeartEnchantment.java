@@ -22,6 +22,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.EnchantRandomlyLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -94,7 +95,12 @@ public class HealingHeartEnchantment extends Enchantment {
                         .forEach((livingEntity) -> {
                             if (livingEntity instanceof PlayerEntity) {
                                 livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 2, false, false, false));
+                                for (int i = 0; i < 32; i++) {
 
+                                    ((ServerWorld)livingEntity.getWorld()).spawnParticles(ParticleTypes.HAPPY_VILLAGER  ,
+                                            livingEntity.getX(), livingEntity.getY() +livingEntity.getHeight(), livingEntity.getZ(), 1,
+                                            Math.cos(i) * 0.25d, 0.5d, Math.sin(i) * 0.25d, 1);
+                                }
                             }
                         });
             }
