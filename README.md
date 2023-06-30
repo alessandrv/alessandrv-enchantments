@@ -161,4 +161,4 @@ Requires the [Fabric-api](https://www.curseforge.com/minecraft/mc-mods/fabric-ap
 *Mutually exclusive for balancing purposes.
 
 Notes:
-The animation and texture on the Ender Defense, Mob Guard, Healing Heart and Ring of fire, were reused assets of the amazing mod by Superkat32: https://modrinth.com/mod/explosive-enhancement
+The animation and texture on the Ender Defense, Mob Guard, Healing Heart and Ring of fire, were reused assets of the amazing mod by Superkat32: https://github.com/Superkat32/Explosive-Enhancement
