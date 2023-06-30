@@ -65,7 +65,7 @@ public class VampiricEnchantment extends Enchantment {
                 for (int i = 0; i < 10; i++) {
 
                     ((ServerWorld)target.getWorld()).spawnParticles(ParticleTypes.HAPPY_VILLAGER  ,
-                            target.getX(), target.getY()+1, target.getZ(), 1,
+                            target.getX(), target.getY() +target.getHeight(), target.getZ(), 1,
                             Math.cos(i) * 0.25d, 0.5d, Math.sin(i) * 0.25d, 1);
                 }
             }

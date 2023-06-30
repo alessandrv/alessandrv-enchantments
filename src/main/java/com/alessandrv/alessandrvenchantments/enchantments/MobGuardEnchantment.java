@@ -22,6 +22,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.EnchantRandomlyLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -79,7 +80,13 @@ public class MobGuardEnchantment extends Enchantment {
                             if (livingEntity instanceof HostileEntity hostileEntity) {
                                 hostileEntity.setAiDisabled(true); // Disabilita l'abilità delle entità nell'area
                                 badGuys.set(true);
+                                for (int i = 0; i < 64; i++) {
+                                ((ServerWorld)hostileEntity.getWorld()).spawnParticles(ParticleTypes.SNOWFLAKE  ,
+                                        hostileEntity.getX(), hostileEntity.getY()+1, hostileEntity.getZ(), 1,
+                                        1, 1, 1, 1);
+                                }
                             }
+
                         });
                 if(badGuys.get()){
                     double x = user.getX();
