@@ -22,7 +22,15 @@ public class BoneMealEnchantment extends Enchantment {
     public static int getCooldown(){
         return CONFIG.cooldown;
     }
-
+    public static int getLvl1Area(){
+        return CONFIG.lvl1Area;
+    }
+    public static int getLvl2Area(){
+        return CONFIG.lvl2Area;
+    }
+    public static int getLvl3Area(){
+        return CONFIG.lvl3Area;
+    }
     @Override
     public boolean isAvailableForEnchantedBookOffer() {
         return CONFIG.bookOffer;

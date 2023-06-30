@@ -42,6 +42,12 @@ public class ModConfig implements ConfigData {
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 5;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+        public int lvl1Area = 3;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+        public int lvl2Area = 5;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+        public int lvl3Area = 9;
     }
     public static class EnderDefenseOptions {
         public boolean isEnabled = true;
@@ -134,6 +140,9 @@ public class ModConfig implements ConfigData {
         enderDefenseOptions.radius = MathHelper.clamp(enderDefenseOptions.radius, 0, 64);
         explosiveOptions.power = MathHelper.clamp(explosiveOptions.power, 0, 64);
         ringOfFireOptions.radius = MathHelper.clamp(ringOfFireOptions.radius, 0, 64);
+        boneMealOptions.lvl1Area = MathHelper.clamp(boneMealOptions.lvl1Area, 1, 64);
+        boneMealOptions.lvl2Area = MathHelper.clamp(boneMealOptions.lvl2Area, 1, 64);
+        boneMealOptions.lvl3Area = MathHelper.clamp(boneMealOptions.lvl3Area, 1, 64);
 
 
     }
