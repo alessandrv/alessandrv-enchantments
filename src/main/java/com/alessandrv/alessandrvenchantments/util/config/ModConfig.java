@@ -48,6 +48,7 @@ public class ModConfig implements ConfigData {
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 30;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
         public int radius = 5;
     }
     public static class ExplosiveOptions {
@@ -55,6 +56,7 @@ public class ModConfig implements ConfigData {
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 60;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 32)
         public float power = 3.0F;
     }
     public static class GlowerOptions {
@@ -72,6 +74,7 @@ public class ModConfig implements ConfigData {
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 150;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
         public int radius = 10;
     }
     public static class MobGuardOptions {
@@ -80,20 +83,21 @@ public class ModConfig implements ConfigData {
         public boolean bookOffer = true;
         public int cooldown = 30;
         public int freezeTime = 10;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
         public int radius = 10;
     }
     public static class NightStalkerOptions {
         public boolean isEnabled = true;
-        public boolean randomSelection = false;
-        public boolean bookOffer = false;
-        @ConfigEntry.BoundedDiscrete(min = 8, max = 64)
-        public double radius = 16.0;
+        public boolean randomSelection = true;
+        public boolean bookOffer = true;
+
     }
     public static class RingOfFireOptions {
         public boolean isEnabled = true;
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 60;
+        @ConfigEntry.BoundedDiscrete(min = 2, max = 64)
         public int radius = 5;
     }
     public static class SoulboundOptions {
@@ -125,6 +129,12 @@ public class ModConfig implements ConfigData {
 
     @Override
     public void validatePostLoad() {
-        nightStalkerOptions.radius = MathHelper.clamp(nightStalkerOptions.radius, 0.0, 64.0);
+        healingHeartOptions.radius = MathHelper.clamp(healingHeartOptions.radius, 0, 64);
+        mobGuardOptions.radius = MathHelper.clamp(mobGuardOptions.radius, 0, 64);
+        enderDefenseOptions.radius = MathHelper.clamp(enderDefenseOptions.radius, 0, 64);
+        explosiveOptions.power = MathHelper.clamp(explosiveOptions.power, 0, 64);
+        ringOfFireOptions.radius = MathHelper.clamp(ringOfFireOptions.radius, 0, 64);
+
+
     }
 }
