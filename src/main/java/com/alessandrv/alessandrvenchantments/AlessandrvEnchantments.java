@@ -24,7 +24,7 @@ public class AlessandrvEnchantments implements ModInitializer {
         ModStatuses.registerStatuses();
         //Particles
         ModParticles.registerParticles();
-        //End
+
     }
 
     public static ModConfig getConfig() {
