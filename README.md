@@ -1,4 +1,4 @@
-# Alessandrv's Enchantmets
+# Alessandrv's Enchantments
 As of now the mod adds 12 new vanilla-like enchantments. Some are really basic like giving night vision on an helmet but that makes just sense to me.
 
 This is my first mod so any feedback or suggestion is greatly appreciated!
@@ -153,12 +153,38 @@ Requires the [Fabric-api](https://www.curseforge.com/minecraft/mc-mods/fabric-ap
 
 **Max Level:** 1
 
-**Description:** Lets you sense the presence of hostile creatures around you and notifies you with a GUI element.
-**Notes:** Not yet implemented, will work similarly to the High Alert perk in Call of Duty.
+**Description:** Lets you sense the presence of hostile creatures around you and notifies you with a GUI element. Like call of duty high allert perk.
+
+---
+
+## Voidless
+**Item:**All armor
+
+**Max Level:** 1
+
+**Description:** If the user has full armor set with the enchantment, on void hitting you will be teleported to your spawn point saving your life.
+
+---
+
+## Die Twice
+**Item:** All armor
+
+**Max Level:** 1
+
+**Description:**  If the user has full armor set with the enchantment, on respawn the user has 60 seconds to prepare to be teleported on the death position with resistance and fire resistance to avoid a fast second death.
+
+---
+
+## Freeze Aspect
+**Item:** Weapons
+
+**Max Level:** 2
+
+**Description:** Applies freezing effect on hit
 
  
 
 *Mutually exclusive for balancing purposes.
 
 Notes:
-The animation and texture on the Ender Defense, Mob Guard, Healing Heart and Ring of fire, were reused assets of the amazing mod by Superkat32: https://github.com/Superkat32/Explosive-Enhancement
+The animation and texture on the Ender Defense, Mob Guard, Healing Heart and Ring of fire, were reused assets of the amazing mod by Superkat32: https://modrinth.com/mod/explosive-enhancement / https://github.com/Superkat32/Explosive-Enhancement
