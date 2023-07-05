@@ -113,6 +113,10 @@
   "text.autoconfig.alessandrvenchantments.option.boneMealOptions.randomSelection": "Can be found in enchanting table: ",
   "text.autoconfig.alessandrvenchantments.option.boneMealOptions.bookOffer": "Is Tradable: ",
   "text.autoconfig.alessandrvenchantments.option.boneMealOptions.cooldown": "Cooldown (in seconds): ",
+  "text.autoconfig.alessandrvenchantments.option.boneMealOptions.lvl1Area": "Level 1 square area: ",
+  "text.autoconfig.alessandrvenchantments.option.boneMealOptions.lvl2Area": "Level 2 square area: ",
+  "text.autoconfig.alessandrvenchantments.option.boneMealOptions.lvl3Area": "Level 3 square area: ",
+
   "text.autoconfig.alessandrvenchantments.option.vampiricOptions": "Vampiric Options",
   "text.autoconfig.alessandrvenchantments.option.vampiricOptions.isEnabled": "Is Enabled: ",
   "text.autoconfig.alessandrvenchantments.option.vampiricOptions.randomSelection": "Can be found in enchanting table: ",
