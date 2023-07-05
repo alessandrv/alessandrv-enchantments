@@ -1,5 +1,5 @@
 # Alessandrv's Enchantments
-As of now the mod adds 12 new vanilla-like enchantments. Some are really basic like giving night vision on an helmet but that makes just sense to me.
+As of now the mod adds 17 new vanilla-like enchantments. Some are really basic like giving night vision on an helmet but that makes just sense to me.
 
 This is my first mod so any feedback or suggestion is greatly appreciated!
 
