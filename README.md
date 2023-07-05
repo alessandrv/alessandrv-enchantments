@@ -158,7 +158,7 @@ Requires the [Fabric-api](https://www.curseforge.com/minecraft/mc-mods/fabric-ap
 ---
 
 ## Voidless
-**Item:**All armor
+**Item:** All armor
 
 **Max Level:** 1
 
