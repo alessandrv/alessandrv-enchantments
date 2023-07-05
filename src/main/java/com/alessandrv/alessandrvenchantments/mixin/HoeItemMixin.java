@@ -2,7 +2,7 @@ package com.alessandrv.alessandrvenchantments.mixin;
 
 import com.alessandrv.alessandrvenchantments.enchantments.BoneMealEnchantment;
 import com.alessandrv.alessandrvenchantments.enchantments.ModEnchantments;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -33,7 +33,7 @@ public abstract class HoeItemMixin extends MiningToolItem {
         int bonemealLevel = EnchantmentHelper.getLevel(ModEnchantments.BONEMEAL, context.getStack());
         if (bonemealLevel > 0) {
             assert player != null;
-            if (!player.hasStatusEffect(ModStatuses.BONEMEALCOOLDOWN) && player.isSneaking() || player.isCreative() && player.isSneaking()) {
+            if (!player.hasStatusEffect(ModStatusEffects.BONEMEALCOOLDOWN) && player.isSneaking() || player.isCreative() && player.isSneaking()) {
                 World world = context.getWorld();
                 BlockPos blockPos = context.getBlockPos();
 
@@ -71,7 +71,7 @@ public abstract class HoeItemMixin extends MiningToolItem {
                     }
                 }
 
-                player.addStatusEffect(new StatusEffectInstance(ModStatuses.BONEMEALCOOLDOWN, BoneMealEnchantment.getCooldown() *20, 0, false, false, true));
+                player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.BONEMEALCOOLDOWN, BoneMealEnchantment.getCooldown() *20, 0, false, false, true));
 
                 ci.setReturnValue(ActionResult.SUCCESS);
 

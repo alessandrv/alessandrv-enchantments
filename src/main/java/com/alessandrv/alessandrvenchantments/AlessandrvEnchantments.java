@@ -7,10 +7,15 @@ import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.ModInitializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
-
+import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class AlessandrvEnchantments implements ModInitializer {
 
     private static ModConfig config;
+    public static final Logger LOGGER = LoggerFactory.getLogger("alessandrvenchantments");
+
+    public static final Identifier SPOTTER_OUTLINE = new Identifier("alessandrvenchantments", "textures/misc/spotter_outline.png");
 
     @Override
     public void onInitialize() {
@@ -21,7 +26,7 @@ public class AlessandrvEnchantments implements ModInitializer {
         //Enchantments
         ModEnchantments.registerEnchantments();
         //Status Effects
-        ModStatuses.registerStatuses();
+        ModStatusEffects.registerStatuses();
         //Particles
         ModParticles.registerParticles();
 
@@ -30,5 +35,6 @@ public class AlessandrvEnchantments implements ModInitializer {
     public static ModConfig getConfig() {
         return config;
     }
+
 
 }

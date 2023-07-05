@@ -2,7 +2,7 @@ package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -69,7 +69,7 @@ public class HealingHeartEnchantment extends Enchantment {
         if (EnchantmentHelper.getLevel(ModEnchantments.HEALINGHEART, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(user.getHealth() <=6 && !user.hasStatusEffect(ModStatuses.HEALINGHEARTCOOLDOWN)) {
+        if(user.getHealth() <=6 && !user.hasStatusEffect(ModStatusEffects.HEALINGHEARTCOOLDOWN)) {
             World world = user.getEntityWorld();
 
 
@@ -83,7 +83,7 @@ public class HealingHeartEnchantment extends Enchantment {
                 double z = user.getZ();
                 ((ServerWorld) user.getWorld()).spawnParticles(ModParticles.HEALINGWAVE,
                         x, y, z, 1, 0.0, 0, 0.0, 0.0);
-                user.addStatusEffect(new StatusEffectInstance(ModStatuses.HEALINGHEARTCOOLDOWN, CONFIG.cooldown *20 / level, 0, false, false, true));
+                user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.HEALINGHEARTCOOLDOWN, CONFIG.cooldown *20 / level, 0, false, false, true));
                 SoundEvent soundEvent = SoundEvents.ENTITY_ALLAY_ITEM_TAKEN;
 
                 world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);

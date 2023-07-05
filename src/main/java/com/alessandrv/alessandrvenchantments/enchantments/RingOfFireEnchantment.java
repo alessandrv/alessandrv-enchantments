@@ -2,7 +2,7 @@ package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -69,7 +70,7 @@ public class RingOfFireEnchantment extends Enchantment {
         if (EnchantmentHelper.getLevel(ModEnchantments.RINGOFFIRE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(ModStatuses.RINGOFFIRECOOLDOWN)){
+        if(!user.hasStatusEffect(ModStatusEffects.RINGOFFIRECOOLDOWN)){
             World world = user.getEntityWorld();
             AtomicBoolean badGuys = new AtomicBoolean(false);
             if (world instanceof ServerWorld serverWorld) {
@@ -90,7 +91,7 @@ public class RingOfFireEnchantment extends Enchantment {
 
                                 hostileEntity.takeKnockback(2, xC, zC);
 
-                                user.addStatusEffect(new StatusEffectInstance(ModStatuses.RINGOFFIRECOOLDOWN, CONFIG.cooldown *20 /level, 0, false, false, true));
+                                user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RINGOFFIRECOOLDOWN, CONFIG.cooldown *20 /level, 0, false, false, true));
                                 badGuys.set(true);
                             }
                         });
@@ -104,6 +105,7 @@ public class RingOfFireEnchantment extends Enchantment {
 
                     SoundEvent soundEvent = SoundEvents.ITEM_FIRECHARGE_USE;
 
+                    user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300, 0, false, false, true));
 
 
                     world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);

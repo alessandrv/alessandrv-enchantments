@@ -2,7 +2,7 @@ package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -72,7 +72,7 @@ public class EnderDefenseEnchantment extends Enchantment {
         if (EnchantmentHelper.getLevel(ModEnchantments.ENDERDEFENSE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(ModStatuses.ENDERDEFENSECOOLDOWN)) {
+        if(!user.hasStatusEffect(ModStatusEffects.ENDERDEFENSECOOLDOWN)) {
             World world;
             world = user.getEntityWorld();
             if (world instanceof ServerWorld serverWorld) {
@@ -116,7 +116,7 @@ public class EnderDefenseEnchantment extends Enchantment {
                     double z = user.getZ();
                     ((ServerWorld) user.getWorld()).spawnParticles(ModParticles.ENDERWAVE,
                             x, y, z, 1, 0.0, 0, 0.0, 0.0);
-                    user.addStatusEffect(new StatusEffectInstance(ModStatuses.ENDERDEFENSECOOLDOWN, CONFIG.cooldown *20, 0, false, false, true));
+                    user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.ENDERDEFENSECOOLDOWN, CONFIG.cooldown *20, 0, false, false, true));
 
                 }
             }

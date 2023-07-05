@@ -1,7 +1,7 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -66,7 +66,7 @@ public class ExplosiveEnchantment extends Enchantment {
         if (EnchantmentHelper.getLevel(ModEnchantments.EXPLOSIVE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
-        if(!user.hasStatusEffect(ModStatuses.EXPLOSIVECOOLDOWN)) {
+        if(!user.hasStatusEffect(ModStatusEffects.EXPLOSIVECOOLDOWN)) {
             World world = user.getEntityWorld();
             double x = user.getX();
             double y = user.getY();
@@ -84,7 +84,7 @@ public class ExplosiveEnchantment extends Enchantment {
             SoundEvent soundEvent = SoundEvents.ENTITY_GENERIC_EXPLODE;
             world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
             user.playSound(soundEvent, 2.0F, 0.5F);
-            user.addStatusEffect(new StatusEffectInstance(ModStatuses.EXPLOSIVECOOLDOWN, CONFIG.cooldown*20/level, 0, false, false, true));
+            user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.EXPLOSIVECOOLDOWN, CONFIG.cooldown*20/level, 0, false, false, true));
 
         }
 

@@ -12,9 +12,13 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public final BoneMealOptions boneMealOptions = new BoneMealOptions();
     @ConfigEntry.Gui.CollapsibleObject
+    public final DieTwiceOptions dieTwiceOptions = new DieTwiceOptions();
+    @ConfigEntry.Gui.CollapsibleObject
     public final EnderDefenseOptions enderDefenseOptions = new EnderDefenseOptions();
     @ConfigEntry.Gui.CollapsibleObject
     public final ExplosiveOptions explosiveOptions = new ExplosiveOptions();
+    @ConfigEntry.Gui.CollapsibleObject
+    public final FreezeAspectOptions freezeAspectOptions = new FreezeAspectOptions();
     @ConfigEntry.Gui.CollapsibleObject
     public final GlowerOptions glowerOptions = new GlowerOptions();
     @ConfigEntry.Gui.CollapsibleObject
@@ -35,6 +39,10 @@ public class ModConfig implements ConfigData {
     public final UbiquityOptions ubiquityOptions = new UbiquityOptions();
     @ConfigEntry.Gui.CollapsibleObject
     public final VampiricOptions vampiricOptions = new VampiricOptions();
+    @ConfigEntry.Gui.CollapsibleObject
+    public final VoidlessOptions voidlessOptions = new VoidlessOptions();
+
+
 
 
     public static class BoneMealOptions {
@@ -42,6 +50,11 @@ public class ModConfig implements ConfigData {
         public boolean randomSelection = true;
         public boolean bookOffer = true;
         public int cooldown = 5;
+    }
+    public static class DieTwiceOptions {
+        public boolean isEnabled = true;
+        public boolean randomSelection = true;
+        public boolean bookOffer = true;
     }
     public static class EnderDefenseOptions {
         public boolean isEnabled = true;
@@ -58,6 +71,12 @@ public class ModConfig implements ConfigData {
         public int cooldown = 60;
         @ConfigEntry.BoundedDiscrete(min = 1, max = 32)
         public float power = 3.0F;
+    }
+    public static class FreezeAspectOptions {
+        public boolean isEnabled = true;
+        public boolean randomSelection = true;
+        public boolean bookOffer = true;
+
     }
     public static class GlowerOptions {
         public boolean isEnabled = true;
@@ -110,6 +129,9 @@ public class ModConfig implements ConfigData {
         public boolean isEnabled = true;
         public boolean randomSelection = true;
         public boolean bookOffer = true;
+        @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+        public int radius = 25;
+
     }
     public static class UbiquityOptions {
         public boolean isEnabled = true;
@@ -123,7 +145,12 @@ public class ModConfig implements ConfigData {
         public boolean bookOffer = true;
         public boolean mutuallyExlusive = true;
     }
+    public static class VoidlessOptions {
+        public boolean isEnabled = true;
+        public boolean randomSelection = true;
+        public boolean bookOffer = true;
 
+    }
 
 
 
@@ -134,6 +161,8 @@ public class ModConfig implements ConfigData {
         enderDefenseOptions.radius = MathHelper.clamp(enderDefenseOptions.radius, 0, 64);
         explosiveOptions.power = MathHelper.clamp(explosiveOptions.power, 0, 64);
         ringOfFireOptions.radius = MathHelper.clamp(ringOfFireOptions.radius, 0, 64);
+        spotterOptions.radius = MathHelper.clamp(spotterOptions.radius, 0, 64);
+
 
 
     }

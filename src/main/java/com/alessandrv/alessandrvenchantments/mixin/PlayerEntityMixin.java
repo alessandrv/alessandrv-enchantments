@@ -2,22 +2,26 @@ package com.alessandrv.alessandrvenchantments.mixin;
 
 import com.alessandrv.alessandrvenchantments.enchantments.ModEnchantments;
 import com.alessandrv.alessandrvenchantments.enchantments.SpotterEnchantment;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.particles.ModParticles;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.SoulboundItemsHolder;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +29,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements SoulboundItemsHolder {
@@ -42,8 +49,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
         return soulboundItemsSlot;
     }
 
-
-    private static final Logger LOGGER = LoggerFactory.getLogger("alepagliaccioenchantments");
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -63,15 +68,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
         }
 
         int spotterlevel = EnchantmentHelper.getLevel(ModEnchantments.SPOTTER, itemStackHead);
-        if(spotterlevel>0 && !this.hasStatusEffect(ModStatuses.SPOTTERCOOLDOWN)){
+        if(spotterlevel>0){
 
             if(SpotterEnchantment.checkIfAttacked(this)){
-                LOGGER.info("Ti vogliono");
-                //this.addStatusEffect(new StatusEffectInstance(AlepagliaccioEnchantments.SPOTTERCOOLDOWN, 1200, 0, false, false, false));
-                ((ServerWorld)this.getWorld()).spawnParticles(ParticleTypes.ELDER_GUARDIAN  ,
-                        this.getX(), this.getY()+1, this.getZ(), 1,
-                        0,0,0, 1);
+
+
+                this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.SPOTTER, 5, 0, false, false, false));
+
             }
+        }
+        if(ModEnchantments.hasFullArmorSet(ModEnchantments.VOIDLESS,  this)){
+            this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.VOIDLESS, 5, 0, false, false, false));
+
         }
 
     }
@@ -82,8 +90,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
 
     @Shadow public abstract PlayerInventory getInventory();
 
+    @Shadow public abstract void setFireTicks(int fireTicks);
+
+
+
+
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void dropInventory(CallbackInfo ci) {
+
+
         soulboundItems.clear(); // Pulisci la lista soulboundItems
         soulboundItemsSlot.clear(); // Pulisci la lista soulboundItemsSlot
         for (int slot = 0; slot < getInventory().size(); slot++) {
@@ -94,10 +109,40 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
                 soulboundItemsSlot.add(slot);
             }
         }
+
+
     }
 
     private boolean hasSoulboundEnchantment(ItemStack stack) {
         return EnchantmentHelper.getLevel(ModEnchantments.SOULBOUND, stack) > 0;
     }
 
+    @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
+    protected void applyDamage(DamageSource source, float amount, CallbackInfo ci) {
+        if(source == this.getDamageSources().outOfWorld() && this.hasStatusEffect(ModStatusEffects.VOIDLESS)){
+
+            ServerWorld overworld = ((ServerWorld) this.getEntityWorld()).getServer().getWorld(World.OVERWORLD);
+            assert overworld != null;
+            BlockPos spawnPos = overworld.getSpawnPos();
+
+            this.teleportToSpawn(overworld, spawnPos);
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 200, 10, false, false));
+
+            this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 10, false, false));
+            SoundEvent soundEvent =  SoundEvents.ENTITY_ENDER_EYE_DEATH;
+
+            overworld.playSound(null, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            this.playSound(soundEvent, 1.0F, 1.0F);
+
+            overworld.spawnParticles(ModParticles.ENDERWAVE,
+                    spawnPos.getX(), spawnPos.getY()+2, spawnPos.getZ(), 1, 0.0, 0, 0.0, 0.0);
+            ci.cancel();
+        }
+    }
+
+
+    public void teleportToSpawn(ServerWorld overworld, BlockPos spawnPos) {
+        Set<PositionFlag> flags = new HashSet<>();
+        this.teleport(overworld, spawnPos.getX(),spawnPos.getY(), spawnPos.getZ(),flags, this.getYaw(), this.getPitch());
+    }
 }

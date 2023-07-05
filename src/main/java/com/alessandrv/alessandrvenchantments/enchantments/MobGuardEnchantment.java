@@ -2,7 +2,7 @@ package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
@@ -70,7 +70,7 @@ public class MobGuardEnchantment extends Enchantment {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
 
-        if(!user.hasStatusEffect(ModStatuses.MOBGUARDCOOLDOWN) && user.getHealth() <=3 * level){
+        if(!user.hasStatusEffect(ModStatusEffects.MOBGUARDCOOLDOWN) && user.getHealth() <=3 * level){
             World world = user.getEntityWorld();
             if (world instanceof ServerWorld serverWorld) {
                 AtomicBoolean badGuys = new AtomicBoolean(false);
@@ -79,6 +79,10 @@ public class MobGuardEnchantment extends Enchantment {
                         .forEach((livingEntity) -> {
                             if (livingEntity instanceof HostileEntity hostileEntity) {
                                 hostileEntity.setAiDisabled(true); // Disabilita l'abilità delle entità nell'area
+                                hostileEntity.addStatusEffect(new StatusEffectInstance(ModStatusEffects.FREEZINGSTATUSEFFECT, 100 * level, 2, false, true, false));
+
+                               // hostileEntity.damage(hostileEntity.getDamageSources().freeze(), 2.0f);
+                                //hostileEntity.setFrozenTicks(200 * level);
                                 badGuys.set(true);
                                 for (int i = 0; i < 64; i++) {
                                 ((ServerWorld)hostileEntity.getWorld()).spawnParticles(ParticleTypes.SNOWFLAKE  ,
@@ -97,7 +101,7 @@ public class MobGuardEnchantment extends Enchantment {
 
                     SoundEvent soundEvent = SoundEvents.BLOCK_GLASS_BREAK;
 
-                    user.addStatusEffect(new StatusEffectInstance(ModStatuses.MOBGUARDCOOLDOWN, CONFIG.cooldown*20, 0, false, false, true));
+                    user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.MOBGUARDCOOLDOWN, CONFIG.cooldown*20, 0, false, false, true));
 
                     world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
                     user.playSound(soundEvent, 2.0F, 0.5F);

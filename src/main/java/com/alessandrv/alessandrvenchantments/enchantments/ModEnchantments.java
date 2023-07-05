@@ -1,6 +1,10 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -20,11 +24,14 @@ public class ModEnchantments {
     public static final Enchantment HEALINGHEART = new HealingHeartEnchantment();
     public static final Enchantment BONEMEAL = new BoneMealEnchantment();
     public static final Enchantment SOULBOUND = new SoulboundEnchantment();
+    public static final Enchantment FREEZEASPECT = new FreezeAspectEnchantment();
+    //public static final Enchantment SOULSWAPPER = new SoulSwapperEnchantment();
+    public static final Enchantment DIETWICE = new DieTwiceEnchantment();
+    public static final Enchantment VOIDLESS = new VoidlessEnchantment();
 
 
     public static void registerEnchantments(){
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "nightstalker"), NIGHT_STALKER);
-        //Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "spotter"), SPOTTER);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "ubiquity"), UBIQUITY);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "glowing"), GLOWING);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "glower"), GLOWER);
@@ -36,6 +43,23 @@ public class ModEnchantments {
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "healingheart"), HEALINGHEART);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "bonemeal"), BONEMEAL);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "soulbound"), SOULBOUND);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "freezeaspect"), FREEZEASPECT);
+        //Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "soulswapper"), SOULSWAPPER);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "spotter"), SPOTTER);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "dietwice"), DIETWICE);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "voidless"), VOIDLESS);
+
+    }
+
+    public static boolean hasFullArmorSet(Enchantment enchantment, LivingEntity entity) {
+        ItemStack headSlot = entity.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack chestSlot = entity.getEquippedStack(EquipmentSlot.CHEST);
+        ItemStack legsSlot = entity.getEquippedStack(EquipmentSlot.LEGS);
+        ItemStack feetSlot = entity.getEquippedStack(EquipmentSlot.FEET);
+        return EnchantmentHelper.getLevel(enchantment, headSlot) > 0 &&
+                EnchantmentHelper.getLevel(enchantment, chestSlot) > 0 &&
+                EnchantmentHelper.getLevel(enchantment, legsSlot) > 0 &&
+                EnchantmentHelper.getLevel(enchantment, feetSlot) > 0;
 
     }
 }

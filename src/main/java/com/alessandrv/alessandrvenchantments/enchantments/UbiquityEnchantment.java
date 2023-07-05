@@ -1,7 +1,7 @@
 package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
-import com.alessandrv.alessandrvenchantments.statuseffects.ModStatuses;
+import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 
@@ -57,12 +57,12 @@ public class UbiquityEnchantment extends Enchantment {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
         World world = user.getEntityWorld();
-        if(!user.hasStatusEffect(ModStatuses.UBIQUITYCOOLDOWN)){
+        if(!user.hasStatusEffect(ModStatusEffects.UBIQUITYCOOLDOWN)){
             if (!world.isClient) {
                 double d = user.getX();
                 double e = user.getY();
                 double f = user.getZ();
-                user.addStatusEffect(new StatusEffectInstance(ModStatuses.UBIQUITYCOOLDOWN, CONFIG.cooldown * 20, 0, false, false, true));
+                user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.UBIQUITYCOOLDOWN, CONFIG.cooldown * 20, 0, false, false, true));
                 for (int i = 0; i < 16; ++i) {
                     double g = user.getX() + (user.getRandom().nextDouble() - 0.5) * 16.0;
                     double h = MathHelper.clamp(user.getY() + (double) (user.getRandom().nextInt(16) - 8), world.getBottomY(), world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1);

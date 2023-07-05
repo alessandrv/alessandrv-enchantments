@@ -6,8 +6,9 @@
 		"LivingEntityAccessor",
 		"PlayerEntityMixin",
 		"HoeItemMixin",
-		"ServerPlayerEntityMixin"
-
+		"ServerPlayerEntityMixin",
+		"InGameHudMixin",
+		"LivingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

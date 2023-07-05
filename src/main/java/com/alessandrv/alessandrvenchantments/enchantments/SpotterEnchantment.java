@@ -18,7 +18,7 @@ public class SpotterEnchantment extends Enchantment {
 
     public SpotterEnchantment() {
 
-        super(Rarity.UNCOMMON, EnchantmentTarget.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD});
+        super(Rarity.COMMON, EnchantmentTarget.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD});
 
     }
     @Override
@@ -46,7 +46,7 @@ public class SpotterEnchantment extends Enchantment {
         AtomicBoolean badGuyNear = new AtomicBoolean(false);
         World world = user.getEntityWorld();
         if (world instanceof ServerWorld serverWorld) {
-            Box boundingBox = user.getBoundingBox().expand(15); // Raggio di 20 blocchi intorno all'entità utente
+            Box boundingBox = user.getBoundingBox().expand(CONFIG.radius); // Raggio di 25 blocchi intorno all'entità utente
             if (!serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true).isEmpty()) {
                 serverWorld.getEntitiesByClass(LivingEntity.class, boundingBox, (livingEntity) -> true)
                         .forEach((livingEntity) -> {
@@ -55,12 +55,14 @@ public class SpotterEnchantment extends Enchantment {
 
                                     badGuyNear.set(true);
 
+
                                 }
                             }});
 
                 return badGuyNear.get();
                         }
         }
+
         return false;
     }
 
