@@ -15,7 +15,7 @@ public class FreezeAspectEnchantment extends Enchantment {
     private static final ModConfig.FreezeAspectOptions CONFIG = AlessandrvEnchantments.getConfig().freezeAspectOptions;
 
     public FreezeAspectEnchantment() {
-        super(Rarity.UNCOMMON, EnchantmentTarget.BOW, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+        super(Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
     }
 
     @Override
