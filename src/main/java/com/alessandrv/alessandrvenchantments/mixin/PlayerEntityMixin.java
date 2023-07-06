@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -93,8 +92,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     @Shadow public abstract void setFireTicks(int fireTicks);
 
 
-
-
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void dropInventory(CallbackInfo ci) {
 
@@ -145,4 +142,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
         Set<PositionFlag> flags = new HashSet<>();
         this.teleport(overworld, spawnPos.getX(),spawnPos.getY(), spawnPos.getZ(),flags, this.getYaw(), this.getPitch());
     }
+
+
+
 }

@@ -14,5 +14,5 @@ public class AlessandrvEnchantmentsClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.ICEWAVE, WaveParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENDERWAVE, WaveParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.HEALINGWAVE, WaveParticle.Factory::new);
-    }
+     }
 }

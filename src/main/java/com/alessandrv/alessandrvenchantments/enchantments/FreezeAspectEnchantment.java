@@ -5,6 +5,7 @@ import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.enchantment.FireAspectEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +18,8 @@ public class FreezeAspectEnchantment extends Enchantment {
     public FreezeAspectEnchantment() {
         super(Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
     }
+
+
 
     @Override
     public int getMinPower(int level) {
@@ -40,7 +43,7 @@ public class FreezeAspectEnchantment extends Enchantment {
 
     @Override
     public boolean canAccept(Enchantment other) {
-        return !(other instanceof EnderDefenseEnchantment || other instanceof RingOfFireEnchantment || other instanceof ExplosiveEnchantment || other instanceof HealingHeartEnchantment);
+        return !(other instanceof FireAspectEnchantment);
     }
 
     @Override
