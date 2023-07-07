@@ -16,6 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -116,24 +118,31 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
 
     @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
     protected void applyDamage(DamageSource source, float amount, CallbackInfo ci) {
-        if(source == this.getDamageSources().outOfWorld() && this.hasStatusEffect(ModStatusEffects.VOIDLESS)){
+        if (source == this.getDamageSources().outOfWorld() && this.hasStatusEffect(ModStatusEffects.VOIDLESS)) {
 
             ServerWorld overworld = ((ServerWorld) this.getEntityWorld()).getServer().getWorld(World.OVERWORLD);
             assert overworld != null;
-            BlockPos spawnPos = overworld.getSpawnPos();
 
-            this.teleportToSpawn(overworld, spawnPos);
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 200, 10, false, false));
+            MinecraftServer server = this.getServer();
+            if (server != null) {
+                ServerPlayerEntity serverPlayer = server.getPlayerManager().getPlayer(this.getUuid());
+                if (serverPlayer != null) {
+                    BlockPos spawnPos = serverPlayer.getSpawnPointPosition();
+                    assert spawnPos != null;
+                    this.teleportToSpawn(overworld, spawnPos);
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 200, 10, false, false));
 
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 10, false, false));
-            SoundEvent soundEvent =  SoundEvents.ENTITY_ENDER_EYE_DEATH;
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 10, false, false));
+                    SoundEvent soundEvent = SoundEvents.ENTITY_ENDER_EYE_DEATH;
 
-            overworld.playSound(null, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            this.playSound(soundEvent, 1.0F, 1.0F);
+                    overworld.playSound(null, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    this.playSound(soundEvent, 1.0F, 1.0F);
 
-            overworld.spawnParticles(ModParticles.ENDERWAVE,
-                    spawnPos.getX(), spawnPos.getY()+2, spawnPos.getZ(), 1, 0.0, 0, 0.0, 0.0);
-            ci.cancel();
+                    overworld.spawnParticles(ModParticles.ENDERWAVE,
+                            spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 1, 0.0, 0, 0.0, 0.0);
+                    ci.cancel();
+                }
+            }
         }
     }
 
