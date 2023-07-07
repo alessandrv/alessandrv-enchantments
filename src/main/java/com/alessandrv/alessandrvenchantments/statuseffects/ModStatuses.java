@@ -1,9 +1,8 @@
 package com.alessandrv.alessandrvenchantments.statuseffects;
 
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class ModStatuses {
 
@@ -21,16 +20,16 @@ public class ModStatuses {
 
 
     public static void registerStatuses(){
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "spottercooldown"), SPOTTERCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "mobguardcooldown"), MOBGUARDCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ringoffirecooldown"), RINGOFFIRECOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "explosivecooldown"), EXPLOSIVECOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "enderdefensecooldown"), ENDERDEFENSECOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "absorptioncooldown"), ABSORPTIONCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "healingheartcooldown"), HEALINGHEARTCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ubiquitycooldown"), UBIQUITYCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "bonemealcooldown"), BONEMEALCOOLDOWN);
-        Registry.register(Registries.STATUS_EFFECT, new Identifier("alessandrvenchantments", "fortune"), FORTUNE);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "spottercooldown"), SPOTTERCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "mobguardcooldown"), MOBGUARDCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ringoffirecooldown"), RINGOFFIRECOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "explosivecooldown"), EXPLOSIVECOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "enderdefensecooldown"), ENDERDEFENSECOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "absorptioncooldown"), ABSORPTIONCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "healingheartcooldown"), HEALINGHEARTCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "ubiquitycooldown"), UBIQUITYCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "bonemealcooldown"), BONEMEALCOOLDOWN);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("alessandrvenchantments", "fortune"), FORTUNE);
 
     }
 }

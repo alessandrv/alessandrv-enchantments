@@ -4,13 +4,18 @@ import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+
+import net.minecraft.client.util.Window;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -28,26 +33,37 @@ public abstract class InGameHudMixin {
         this.scaledWidth = scaledWidth;
     }
 
-    private void renderOverlay(DrawContext context) {
+    private void renderOverlay(MatrixStack matrices) {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
-        context.setShaderColor(1.0F, 1.0F, 1.0F, (float) 0.5);
-        context.drawTexture(AlessandrvEnchantments.SPOTTER_OUTLINE, 0, 0, -90, 0.0F, 0.0F, scaledWidth, scaledHeight, scaledWidth, scaledHeight);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (float) 0.5);
+        RenderSystem.setShaderTexture(0, AlessandrvEnchantments.SPOTTER_OUTLINE);
+        drawTexture(matrices, 0, 0, -90, 0.0F, 0.0F, scaledWidth, scaledHeight, scaledWidth, scaledHeight);
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+    private void renderOverlay(MatrixStack matrices, Identifier texture, float opacity) {
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, opacity);
+        RenderSystem.setShaderTexture(0, texture);
+        drawTexture(matrices, 0, 0, -90, 0.0F, 0.0F, this.scaledWidth, this.scaledHeight, this.scaledWidth, this.scaledHeight);
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
 
-
     @Inject(method = "renderCrosshair", at = @At("HEAD"))
-    public void renderCrosshair(DrawContext context, CallbackInfo ci) {
-        setScaledWidth(context.getScaledWindowWidth());
-        setScaledHeight(context.getScaledWindowHeight());
+    public void renderCrosshair(MatrixStack matrices, CallbackInfo ci) {
+        Window window = this.getClient().getWindow();
+        setScaledWidth(window.getScaledWidth());
+        setScaledHeight(window.getScaledHeight());
         MinecraftClient client = this.getClient();
         assert client.player != null;
         if(client.player.hasStatusEffect(ModStatusEffects.SPOTTER)) {
-            this.renderOverlay(context);
+            this.renderOverlay(matrices);
         }
     }
 }
