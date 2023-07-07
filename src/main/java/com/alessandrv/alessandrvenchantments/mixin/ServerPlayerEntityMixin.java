@@ -6,16 +6,25 @@ import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import com.alessandrv.alessandrvenchantments.util.PlayerEffectStorage;
 import com.alessandrv.alessandrvenchantments.util.SoulboundItemsHolder;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import static com.alessandrv.alessandrvenchantments.statuseffects.DieTwiceStatusEffect.setCoords;
 
 import java.util.List;
@@ -24,14 +33,18 @@ import java.util.List;
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
 
+    @Shadow public abstract void setExperienceLevel(int level);
+
+    @Shadow @Final private static Logger LOGGER;
+
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile) {
         super(world, pos, yaw, gameProfile);
     }
 
 
-
     @Inject(method = "onDeath", at = @At("HEAD"))
     private void onDeath(CallbackInfo ci) {
+
         if(!this.hasStatusEffect(ModStatusEffects.DIETWICECOOLDOWN)){
 
             if (ModEnchantments.hasFullArmorSet(ModEnchantments.DIETWICE, this)) {

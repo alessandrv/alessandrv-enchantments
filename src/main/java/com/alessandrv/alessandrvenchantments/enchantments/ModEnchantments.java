@@ -28,6 +28,7 @@ public class ModEnchantments {
     //public static final Enchantment SOULSWAPPER = new SoulSwapperEnchantment();
     public static final Enchantment DIETWICE = new DieTwiceEnchantment();
     public static final Enchantment VOIDLESS = new VoidlessEnchantment();
+    public static final Enchantment EXPERIENCEBOUND = new ExperienceBoundEnchantment();
 
 
     public static void registerEnchantments(){
@@ -48,6 +49,7 @@ public class ModEnchantments {
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "spotter"), SPOTTER);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "dietwice"), DIETWICE);
         Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "voidless"), VOIDLESS);
+        Registry.register(Registries.ENCHANTMENT, new Identifier("alessandrvenchantments", "experiencebound"), EXPERIENCEBOUND);
 
     }
 

@@ -1,5 +1,6 @@
 package com.alessandrv.alessandrvenchantments.mixin;
 
+import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.statuseffects.CooldownStatusEffect;
 import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
 import net.minecraft.entity.LivingEntity;
@@ -18,16 +19,14 @@ public abstract class LivingEntityMixin {
 
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @Inject(method = "clearStatusEffects", at = @At("HEAD"))
+    @Inject(method = "clearStatusEffects", at = @At("HEAD"), cancellable = true)
     private void clearStatusEffects(CallbackInfoReturnable<Boolean> cir) {
 
         //fixare dovrebbe essere cosi solo con secchio e quando quitti dovrebbero rimanere applicati
         if(this.hasStatusEffect(ModStatusEffects.DIETWICESTATUS)){
             cir.cancel();
         }
-
         Map<StatusEffect, StatusEffectInstance> statusEffects = this.getActiveStatusEffects();
-
         // Itera attraverso tutti gli status effect presenti
         for (StatusEffectInstance effect : statusEffects.values()) {
             // Controlla se l'effetto è una istanza di CooldownStatusEffect

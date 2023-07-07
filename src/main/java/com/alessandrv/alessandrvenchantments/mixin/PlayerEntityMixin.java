@@ -4,6 +4,7 @@ import com.alessandrv.alessandrvenchantments.enchantments.ModEnchantments;
 import com.alessandrv.alessandrvenchantments.enchantments.SpotterEnchantment;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
 import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
+import com.alessandrv.alessandrvenchantments.util.ExperienceBoundHolder;
 import com.alessandrv.alessandrvenchantments.util.SoulboundItemsHolder;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -36,10 +37,10 @@ import java.util.Set;
 
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements SoulboundItemsHolder {
+public abstract class PlayerEntityMixin extends LivingEntity implements SoulboundItemsHolder, ExperienceBoundHolder {
     private static final List<ItemStack> soulboundItems = new ArrayList<>(); // Lista degli oggetti con l'incantesimo "Soulbound"
     private static final List<Integer> soulboundItemsSlot = new ArrayList<>(); // Lista degli oggetti con l'incantesimo "Soulbound"
-
+    @Shadow public int experienceLevel;
     // Implementa il metodo dell'interfaccia
     @Override
     public List<ItemStack> getSoulboundItems() {
@@ -48,6 +49,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     @Override
     public List<Integer> getSoulboundItemsSlot() {
         return soulboundItemsSlot;
+    }
+    @Override
+    public int getExperienceLevel() {
+        return experienceLevel;
+    }
+    @Override
+    public void setExperienceLevel(int value) {
+        experienceLevel = value;
     }
 
 
@@ -78,6 +87,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
 
             }
         }
+
         if(ModEnchantments.hasFullArmorSet(ModEnchantments.VOIDLESS,  this)){
             this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.VOIDLESS, 5, 0, false, false, false));
 
@@ -94,9 +104,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     @Shadow public abstract void setFireTicks(int fireTicks);
 
 
+
+
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void dropInventory(CallbackInfo ci) {
-
 
         soulboundItems.clear(); // Pulisci la lista soulboundItems
         soulboundItemsSlot.clear(); // Pulisci la lista soulboundItemsSlot
