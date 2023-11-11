@@ -6,7 +6,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.minecraft.util.math.MathHelper;
 
 @Config(name = "alessandrvenchantments")
-//@Config.Gui.Background("qu-enchantments:textures/block/hot_obsidian_2.png")
 public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -41,6 +40,8 @@ public class ModConfig implements ConfigData {
     public final VampiricOptions vampiricOptions = new VampiricOptions();
     @ConfigEntry.Gui.CollapsibleObject
     public final VoidlessOptions voidlessOptions = new VoidlessOptions();
+
+
 
 
 

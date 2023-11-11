@@ -139,23 +139,24 @@ public class MobGuardEnchantment extends Enchantment {
     static
     {
 
+        if(CONFIG.isEnabled) {
+            LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, builder, source) ->
+            {
+                if (!id.equals(LootTables.ANCIENT_CITY_CHEST))
+                    return;
 
-        LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, builder, source) ->
-        {
-            if(!id.equals(LootTables.ANCIENT_CITY_CHEST))
-                return;
-
-            // Adding enchanted book to ancient city loot table3
-            builder.pool(LootPool.builder()
-                    .rolls(ConstantLootNumberProvider.create(1.0F))
-                    .with(ItemEntry.builder(Items.BOOK)
-                            .weight(5)
-                            .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.MOBGUARD)))
-                    .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
-                    .with(EmptyEntry.builder()
-                            .weight(10))
-                    .build());
-        }));
+                // Adding enchanted book to ancient city loot table3
+                builder.pool(LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1.0F))
+                        .with(ItemEntry.builder(Items.BOOK)
+                                .weight(5)
+                                .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.MOBGUARD)))
+                        .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
+                        .with(EmptyEntry.builder()
+                                .weight(10))
+                        .build());
+            }));
+        }
     }
 
 }

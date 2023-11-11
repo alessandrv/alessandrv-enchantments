@@ -4,7 +4,6 @@ import com.alessandrv.alessandrvenchantments.enchantments.ModEnchantments;
 import com.alessandrv.alessandrvenchantments.enchantments.SpotterEnchantment;
 import com.alessandrv.alessandrvenchantments.particles.ModParticles;
 import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
-import com.alessandrv.alessandrvenchantments.util.ExperienceBoundHolder;
 import com.alessandrv.alessandrvenchantments.util.SoulboundItemsHolder;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -37,7 +36,7 @@ import java.util.Set;
 
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements SoulboundItemsHolder, ExperienceBoundHolder {
+public abstract class PlayerEntityMixin extends LivingEntity implements SoulboundItemsHolder {
     private static final List<ItemStack> soulboundItems = new ArrayList<>(); // Lista degli oggetti con l'incantesimo "Soulbound"
     private static final List<Integer> soulboundItemsSlot = new ArrayList<>(); // Lista degli oggetti con l'incantesimo "Soulbound"
     @Shadow public int experienceLevel;
@@ -50,14 +49,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
     public List<Integer> getSoulboundItemsSlot() {
         return soulboundItemsSlot;
     }
-    @Override
-    public int getExperienceLevel() {
-        return experienceLevel;
-    }
-    @Override
-    public void setExperienceLevel(int value) {
-        experienceLevel = value;
-    }
+
+
 
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -139,7 +132,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
                 ServerPlayerEntity serverPlayer = server.getPlayerManager().getPlayer(this.getUuid());
                 if (serverPlayer != null) {
                     BlockPos spawnPos = serverPlayer.getSpawnPointPosition();
-                    assert spawnPos != null;
+                    if(spawnPos == null) {
+                        spawnPos = serverPlayer.getServerWorld().getSpawnPos();
+                    }
+
                     this.teleportToSpawn(overworld, spawnPos);
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 200, 10, false, false));
 
@@ -152,6 +148,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
                     overworld.spawnParticles(ModParticles.ENDERWAVE,
                             spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 1, 0.0, 0, 0.0, 0.0);
                     ci.cancel();
+
                 }
             }
         }
