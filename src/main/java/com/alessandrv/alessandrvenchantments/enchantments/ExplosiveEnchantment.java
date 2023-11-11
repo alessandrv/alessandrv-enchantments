@@ -78,8 +78,10 @@ public class ExplosiveEnchantment extends Enchantment {
 
             explosion.collectBlocksAndDamageEntities();
 
-            ((ServerWorld) user.getWorld()).spawnParticles(ParticleTypes.EXPLOSION_EMITTER,
-                    x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+            if (!user.getWorld().isClient()) {
+                ((ServerWorld) user.getWorld()).spawnParticles(ParticleTypes.EXPLOSION_EMITTER,
+                        x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+            }
 
             SoundEvent soundEvent = SoundEvents.ENTITY_GENERIC_EXPLODE;
             world.playSound(null, x, y, z, soundEvent, SoundCategory.PLAYERS, 2.0F, 0.5F);
