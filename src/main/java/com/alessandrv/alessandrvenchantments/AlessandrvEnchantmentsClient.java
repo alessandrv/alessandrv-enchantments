@@ -10,8 +10,7 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+
 import net.minecraft.util.Identifier;
 
 public class AlessandrvEnchantmentsClient implements ClientModInitializer {

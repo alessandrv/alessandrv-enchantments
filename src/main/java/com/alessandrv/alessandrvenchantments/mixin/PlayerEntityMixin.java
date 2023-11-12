@@ -129,7 +129,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Soulboun
                 ServerPlayerEntity serverPlayer = server.getPlayerManager().getPlayer(this.getUuid());
                 if (serverPlayer != null) {
                     BlockPos spawnPos = serverPlayer.getSpawnPointPosition();
-                    assert spawnPos != null;
+                    if(spawnPos == null) {
+                        spawnPos = serverPlayer.getWorld().getSpawnPos();
+                    }
                     this.teleportToSpawn(overworld, spawnPos);
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 200, 10, false, false));
 

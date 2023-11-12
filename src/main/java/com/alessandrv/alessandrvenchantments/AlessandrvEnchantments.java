@@ -19,12 +19,7 @@ import net.minecraft.item.map.MapIcon;
 import net.minecraft.item.map.MapState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.StructureTags;
-import net.minecraft.registry.tag.TagKey;
+
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -60,8 +55,6 @@ public class AlessandrvEnchantments implements ModInitializer {
 
         private static List<String> VALID_IDS;
     private static final ExecutorService em4esExecutor = Executors.newSingleThreadExecutor();
-
-    public static final TagKey<Structure> DESERT_PYRAMID = TagKey.of(RegistryKeys.STRUCTURE, new Identifier("alessandvenchantments", "test"));
 
 
 
