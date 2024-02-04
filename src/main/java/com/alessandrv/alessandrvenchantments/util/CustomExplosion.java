@@ -9,6 +9,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -37,12 +39,12 @@ public class CustomExplosion extends Explosion {
     @Nullable
     private final Entity entity;
     private final float power;
-    private final DamageSource damageSource;
+    private DamageSource damageSource;
 
     private final ObjectArrayList<BlockPos> affectedBlocks;
     private final Map<PlayerEntity, Vec3d> affectedPlayers;
-    public CustomExplosion(World world, @Nullable Entity entity, @Nullable DamageSource damageSource, @Nullable ExplosionBehavior behavior, double x, double y, double z, float power, boolean createFire, DestructionType destructionType) {
-        super(world, entity, damageSource, behavior, x, y, z, power, createFire, destructionType);
+    public CustomExplosion(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, DestructionType destructionType) {
+        super(world, entity, x, y, z, power, createFire, destructionType);
         this.random = Random.create();
         this.affectedBlocks = new ObjectArrayList();
         this.affectedPlayers = Maps.newHashMap();
@@ -54,10 +56,12 @@ public class CustomExplosion extends Explosion {
         this.z = z;
         this.createFire = createFire;
         this.destructionType = destructionType;
-        this.damageSource = damageSource == null ? world.getDamageSources().explosion(this) : damageSource;
 
     }
 
+    public DamageSource getDamageSource() {
+        return this.damageSource;
+    }
 
     public void DamageEntities() {
         this.world.emitGameEvent(this.entity, GameEvent.EXPLODE, new Vec3d(this.x, this.y, this.z));
@@ -69,7 +73,7 @@ public class CustomExplosion extends Explosion {
             if (!(entity instanceof ItemEntity) && !(entity instanceof ExperienceOrbEntity)){
 
 
-                if (!entity.isImmuneToExplosion()) {
+                if (!entity.isImmuneToExplosion(this)) {
                     double distanceToEntity = entity.squaredDistanceTo(explosionPosition);
                     double proximity = 1.0 - Math.sqrt(distanceToEntity) / this.power;
 

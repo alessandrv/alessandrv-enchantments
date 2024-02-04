@@ -77,7 +77,7 @@ public class ExplosiveEnchantment extends Enchantment {
             float power = CONFIG.power; // Potenza dell'esplosione
 
             // Genera l'esplosione alle coordinate dell'entità
-            CustomExplosion explosion = new CustomExplosion(world, user, null, null, x, y, z, power, false, Explosion.DestructionType.KEEP);
+            CustomExplosion explosion = new CustomExplosion(world, user, x, y, z, power, false, Explosion.DestructionType.KEEP);
 
             explosion.DamageEntities();
 
