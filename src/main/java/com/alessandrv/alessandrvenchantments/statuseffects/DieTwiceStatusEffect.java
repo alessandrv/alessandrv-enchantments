@@ -3,6 +3,9 @@ package com.alessandrv.alessandrvenchantments.statuseffects;
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
+import net.minecraft.entity.attribute.AttributeModifierCreator;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -13,6 +16,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class DieTwiceStatusEffect extends StatusEffect {
     public DieTwiceStatusEffect() {
@@ -25,8 +31,9 @@ public class DieTwiceStatusEffect extends StatusEffect {
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
         // In our case, we just make it return true so that it applies the status effect every tick.
-        return false;
+        return true;
     }
+    private int count = 560;
     private static double f;
     private static double g;
     private static double h;
@@ -36,9 +43,31 @@ public class DieTwiceStatusEffect extends StatusEffect {
         h=z;
 
     }
+
+
     @Override
-    public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+    public void onRemoved(AttributeContainer attributeContainer) {
+
+        super.onRemoved(attributeContainer);
+    }
+
+    @Override
+    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+
+        if (count < 0) {
+            teleportBack(entity, amplifier);
+            count = 560;
+            }else{
+                count = count - 1;
+            }
+            super.applyUpdateEffect(entity, amplifier);
+    }
+
+
+
+    public void teleportBack(LivingEntity entity, int amplifier) {
         if(f != 0.0 && g != 0 && h!=0){
+
             entity.teleport(f,g,h);
 
             World world = entity.getWorld();
@@ -60,13 +89,14 @@ public class DieTwiceStatusEffect extends StatusEffect {
             AlessandrvEnchantments.LOGGER.info("Coordinate sbagliate");
         }
 
-        super.onRemoved(entity, attributes, amplifier);
+
     }
 
+
     @Override
-    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+    public void onApplied(LivingEntity entity, int amplifier) {
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 640, 0, false, false, true));
 
-        super.onApplied(entity, attributes, amplifier);
+        super.onApplied(entity, amplifier);
     }
 }

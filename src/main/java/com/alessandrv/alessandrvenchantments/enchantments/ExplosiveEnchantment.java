@@ -2,6 +2,7 @@ package com.alessandrv.alessandrvenchantments.enchantments;
 
 import com.alessandrv.alessandrvenchantments.AlessandrvEnchantments;
 import com.alessandrv.alessandrvenchantments.statuseffects.ModStatusEffects;
+import com.alessandrv.alessandrvenchantments.util.CustomExplosion;
 import com.alessandrv.alessandrvenchantments.util.config.ModConfig;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -11,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
@@ -63,6 +65,7 @@ public class ExplosiveEnchantment extends Enchantment {
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
+
         if (EnchantmentHelper.getLevel(ModEnchantments.EXPLOSIVE, user.getEquippedStack(EquipmentSlot.LEGS)) <= 0) {
             return; // L'armatura incantata non è equipaggiata alle gambe o non ha l'incantesimo ExplosiveAttraction, esci dal metodo
         }
@@ -74,9 +77,10 @@ public class ExplosiveEnchantment extends Enchantment {
             float power = CONFIG.power; // Potenza dell'esplosione
 
             // Genera l'esplosione alle coordinate dell'entità
-            Explosion explosion = new Explosion(world, user, null, null, x, y, z, power, false, Explosion.DestructionType.KEEP);
+            CustomExplosion explosion = new CustomExplosion(world, user, null, null, x, y, z, power, false, Explosion.DestructionType.KEEP);
 
-            explosion.collectBlocksAndDamageEntities();
+            explosion.DamageEntities();
+
 
             if (!user.getWorld().isClient()) {
                 ((ServerWorld) user.getWorld()).spawnParticles(ParticleTypes.EXPLOSION_EMITTER,

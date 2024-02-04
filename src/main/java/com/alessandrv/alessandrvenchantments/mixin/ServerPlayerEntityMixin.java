@@ -81,7 +81,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         }
         if(PlayerEffectStorage.getDieTwice()){
             PlayerEffectStorage.setDieTwice(false);
-            this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.DIETWICESTATUS, 600, 0, false, false, true));
+            this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.DIETWICESTATUS, 300, 0, false, false, true));
 
         }
 

@@ -14,6 +14,7 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
 
 
 public class VampiricEnchantment extends Enchantment {
@@ -62,11 +63,14 @@ public class VampiricEnchantment extends Enchantment {
                 float healingAmount = lastDamageTaken * 0.02f * level; // Restituisce il 25% del danno inflitto come vita
                 // Applica la rigenerazione al giocatore
                 player.heal(healingAmount);
-                for (int i = 0; i < 10; i++) {
-
-                    ((ServerWorld)target.getWorld()).spawnParticles(ParticleTypes.HAPPY_VILLAGER  ,
-                            target.getX(), target.getY() +target.getHeight(), target.getZ(), 1,
-                            Math.cos(i) * 0.25d, 0.5d, Math.sin(i) * 0.25d, 1);
+                World world = target.getWorld();
+                if (world instanceof ServerWorld serverWorld) {
+                    for (int i = 0; i < 10; i++) {
+                        ;
+                        serverWorld.spawnParticles(ParticleTypes.HAPPY_VILLAGER,
+                                target.getX(), target.getY() + target.getHeight(), target.getZ(), 1,
+                                Math.cos(i) * 0.25d, 0.5d, Math.sin(i) * 0.25d, 1);
+                    }
                 }
             }
 

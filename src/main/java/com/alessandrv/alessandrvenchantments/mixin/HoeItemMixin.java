@@ -111,7 +111,7 @@ public abstract class HoeItemMixin extends MiningToolItem {
     private static boolean useOnFertilizable(ItemStack stack, World world, BlockPos pos) {
         Fertilizable fertilizable;
         BlockState blockState = world.getBlockState(pos);
-        if (blockState.getBlock() instanceof Fertilizable && (fertilizable = (Fertilizable) blockState.getBlock()).isFertilizable(world, pos, blockState, world.isClient)) {
+        if (blockState.getBlock() instanceof Fertilizable && (fertilizable = (Fertilizable) blockState.getBlock()).isFertilizable(world, pos, blockState)) {
             if (world instanceof ServerWorld) {
                 if (fertilizable.canGrow(world, world.random, pos, blockState)) {
                     fertilizable.grow((ServerWorld)world, world.random, pos, blockState);

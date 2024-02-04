@@ -15,15 +15,11 @@ public class FreezingStatusEffect extends StatusEffect {
 
 
     @Override
-    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+    public void onApplied(LivingEntity entity, int amplifier) {
         entity.damage(entity.getDamageSources().freeze(), 2.0f);
 
     }
 
-    @Override
-    public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-
-    }
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
         return true;
